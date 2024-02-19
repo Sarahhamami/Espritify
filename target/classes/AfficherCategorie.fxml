@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherCategorieController">
+   <children>
+      <TableView fx:id="tableView" layoutX="14.0" layoutY="12.0" prefHeight="379.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="idcat" prefWidth="75.0" text="id" />
+          <TableColumn fx:id="typecat" prefWidth="123.20001220703125" text="type" />
+        </columns>
+      </TableView>
+      <TextField fx:id="search" layoutX="300.0" layoutY="14.0" promptText="search" />
+      <Label layoutX="235.0" layoutY="18.0" text="research" />
+      <Button fx:id="update" layoutX="287.0" layoutY="335.0" mnemonicParsing="false" onAction="#Update" text="update" />
+      <Button fx:id="delete" layoutX="392.0" layoutY="335.0" mnemonicParsing="false" onAction="#Delete" text="delete" />
+      <TextField fx:id="id" layoutX="301.0" layoutY="200.0" />
+      <TextField fx:id="type" layoutX="302.0" layoutY="256.0" />
+      <Button fx:id="add" layoutX="349.0" layoutY="335.0" mnemonicParsing="false" onAction="#ajouter" text="add" />
+      <Label layoutX="259.0" layoutY="204.0" text="id" />
+      <Label layoutX="259.0" layoutY="260.0" text="type" />
+   </children>
+</AnchorPane>
