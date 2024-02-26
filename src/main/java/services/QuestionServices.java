@@ -52,7 +52,7 @@ public class QuestionServices implements IService<Question> {
     }
 
     @Override
-    public void update(Question q) {
+    public boolean update(Question q) {
         int id = q.getId_Que();
         String contenu = q.getContenu();
         String bon = q.isBonne_rep();
@@ -71,6 +71,7 @@ public class QuestionServices implements IService<Question> {
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return false;
     }
 
     @Override

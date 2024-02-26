@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Question;
+import entities.Quizz;
 import entities.Reponse;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,33 +17,31 @@ import javafx.stage.Popup;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
 import services.QuestionServices;
+import services.QuizzService;
 import services.ReponseServices;
 
 import java.io.IOException;
 import java.util.List;
 
-public class AjouterQuestionController {
+public class AjouterQuizzController {
 
     @FXML
     private Button addBtn;
 
     @FXML
-    private TextField bon_rep;
-
-    @FXML
     private Button cancelBtn;
 
     @FXML
-    private TextField contenu;
+    private TextField desc;
 
     @FXML
-    private TextField num_Que;
+    private ChoiceBox<Question> question;
 
     @FXML
-    private ChoiceBox<Reponse> reponse;
+    private TextField sujet;
 
     QuestionServices qs = new QuestionServices();
-    ReponseServices rs = new ReponseServices();
+    QuizzService qz = new QuizzService();
 
     private Popup popup;
 
@@ -57,27 +56,30 @@ public class AjouterQuestionController {
 
     @FXML
     public void initialize() {
-        List<Reponse> responseList = rs.readAll();
-        ObservableList<Reponse> observableResponseList = FXCollections.observableArrayList(responseList);
-        reponse.setItems(observableResponseList);
+        List<Question> QuestionList = qs.readAll();
+        ObservableList<Question> observableResponseList = FXCollections.observableArrayList(QuestionList);
+        question.setItems(observableResponseList);
 
-        reponse.setConverter(new StringConverter<Reponse>() {
+        question.setConverter(new StringConverter<Question>() {
             @Override
-            public String toString(Reponse reponse) {
-                return reponse!= null ? reponse.getContenu() : null;
+            public String toString(Question question) {
+                return question!= null ? question.getContenu() : null;
             }
 
+
             @Override
-            public Reponse fromString(String s) {
+            public Question fromString(String s) {
                 return null;
             }
         });
 
     }
 
+
+
     @FXML
-    void AjouterQuestion(ActionEvent event) throws IOException {
-        boolean addedSuccessfully = qs.add(new Question(contenu.getText(),reponse.getValue(),bon_rep.getText(),Integer.parseInt(num_Que.getText())));
+    void AjouterQuizz(ActionEvent event) throws IOException {
+        boolean addedSuccessfully = qz.add(new Quizz(sujet.getText(),desc.getText(), (Question) question.getValue()));
         Node node = (Node) event.getSource();
         Window ownerWindow = node.getScene().getWindow();
 
@@ -92,7 +94,7 @@ public class AjouterQuestionController {
             controller.setImageView("/images/approuve.png");
             controller.setClosePopupStyle("button-success");
         } else {
-            controller.setCustomMsg("Échec de l'ajout du Question");
+            controller.setCustomMsg("Échec de l'ajout du Quizz");
             controller.setCustomTitle("Échec!");
             controller.setImageView("/images/rejete.png");
             controller.setClosePopupStyle("button-failed");

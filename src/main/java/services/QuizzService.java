@@ -26,11 +26,15 @@ public class QuizzService implements IService<Quizz> {
             pst.setString(1, q.getSujet());
             pst.setString(2, q.getDescript());
             pst.setInt(3, q.getQuestion().getId_Que());
-            pst.executeUpdate();
+            int rows = pst.executeUpdate();
+            if(rows > 0){
+                return true;
+            }else{
+                return false;
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return false;
     }
 
     @Override
@@ -49,7 +53,7 @@ public class QuizzService implements IService<Quizz> {
     }
 
     @Override
-    public void update(Quizz q) {
+    public boolean update(Quizz q) {
         int id = q.getId_quizz();
         String sujet = q.getSujet();
         String desc = q.getDescript();
@@ -62,6 +66,9 @@ public class QuizzService implements IService<Quizz> {
             int nbligne = pst.executeUpdate();
             if (nbligne == 0) {
                 System.out.println("Aucune modification effectuée pour cette requête");
+                return false;
+            }else{
+                return true;
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);

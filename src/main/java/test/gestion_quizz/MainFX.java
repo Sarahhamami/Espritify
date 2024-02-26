@@ -13,7 +13,7 @@ public class MainFX extends Application {
     public void start(Stage stage) throws Exception {
 
 
-        Parent root = FXMLLoader.load(getClass().getResource("/afficherQuestion.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/afficherQuizz.fxml"));
         stage.setScene(new Scene(root));
         //set stage borderless
         //stage.initStyle(StageStyle.UNDECORATED);

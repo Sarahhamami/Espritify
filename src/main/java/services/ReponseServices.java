@@ -47,7 +47,7 @@ public class ReponseServices implements IService<Reponse> {
     }
 
     @Override
-    public void update(Reponse rep) {
+    public boolean update(Reponse rep) {
         int id = rep.getId_rep();
         String reponse= rep.getContenu();
         String req = "update reponse set contenu = ? where id_rep='" + id + "'";
@@ -61,6 +61,7 @@ public class ReponseServices implements IService<Reponse> {
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return false;
     }
 
     @Override

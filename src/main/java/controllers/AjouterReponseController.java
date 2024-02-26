@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Popup;
@@ -17,8 +18,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AjouterReponseController {
+public class AjouterReponseController implements Initializable{
 
+    @FXML
+    private Label errorLabel;
+
+    @FXML
+    private Button addBtn;
     ReponseServices rs= new ReponseServices();
 
     @FXML
@@ -61,5 +67,18 @@ public class AjouterReponseController {
         controller.setPopup(popup);
         popup.show(ownerWindow);
 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        contenu.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.isEmpty()) {
+                errorLabel.setText("Le champ ne peut pas être vide");
+                addBtn.setDisable(true);
+            } else {
+                errorLabel.setText("");
+                addBtn.setDisable(false);
+            }
+        });
     }
 }

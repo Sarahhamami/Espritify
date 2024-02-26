@@ -1,9 +1,8 @@
 package controllers;
 
 import entities.Question;
+import entities.Quizz;
 import entities.Reponse;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,37 +13,39 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Popup;
 import javafx.stage.Window;
-import javafx.util.StringConverter;
-import services.QuestionServices;
+import services.QuizzService;
 import services.ReponseServices;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.EventObject;
 
-public class AjouterQuestionController {
+public class UpdateQuizzController {
+
+    @FXML
+    private ChoiceBox<Question> Question;
 
     @FXML
     private Button addBtn;
 
     @FXML
-    private TextField bon_rep;
-
-    @FXML
     private Button cancelBtn;
 
     @FXML
-    private TextField contenu;
+    private TextField description;
 
     @FXML
-    private TextField num_Que;
+    private TextField id;
 
     @FXML
-    private ChoiceBox<Reponse> reponse;
-
-    QuestionServices qs = new QuestionServices();
-    ReponseServices rs = new ReponseServices();
+    private TextField sujet;
 
     private Popup popup;
+
+    private Quizz quizzToUpdate;
+
+    QuizzService qs= new QuizzService();
+
+
 
     public void setPopup(Popup popup) {
         this.popup = popup;
@@ -56,29 +57,15 @@ public class AjouterQuestionController {
     }
 
     @FXML
-    public void initialize() {
-        List<Reponse> responseList = rs.readAll();
-        ObservableList<Reponse> observableResponseList = FXCollections.observableArrayList(responseList);
-        reponse.setItems(observableResponseList);
+    public void UpdateQuizz(ActionEvent actionEvent,Quizz quizz) throws IOException {
+        this.quizzToUpdate = quizz;
+        id.setText(String.valueOf(quizz.getId_quizz()));
+        sujet.setText(quizz.getSujet());
+        description.setText(quizz.getDescript());
 
-        reponse.setConverter(new StringConverter<Reponse>() {
-            @Override
-            public String toString(Reponse reponse) {
-                return reponse!= null ? reponse.getContenu() : null;
-            }
 
-            @Override
-            public Reponse fromString(String s) {
-                return null;
-            }
-        });
-
-    }
-
-    @FXML
-    void AjouterQuestion(ActionEvent event) throws IOException {
-        boolean addedSuccessfully = qs.add(new Question(contenu.getText(),reponse.getValue(),bon_rep.getText(),Integer.parseInt(num_Que.getText())));
-        Node node = (Node) event.getSource();
+        boolean addedSuccessfully = qs.update(new Quizz(quizz.getId_quizz(),sujet.getText(),description.getText()));
+        Node node = (Node) actionEvent.getSource();
         Window ownerWindow = node.getScene().getWindow();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert.fxml"));
@@ -87,12 +74,12 @@ public class AjouterQuestionController {
         popup.getContent().add(popupContent);
         Alert controller = loader.getController();
         if (addedSuccessfully) {
-            controller.setCustomMsg("Ajout avec succès");
+            controller.setCustomMsg("Update avec succès");
             controller.setCustomTitle("Succès!");
             controller.setImageView("/images/approuve.png");
             controller.setClosePopupStyle("button-success");
         } else {
-            controller.setCustomMsg("Échec de l'ajout du Question");
+            controller.setCustomMsg("Échec de l'update du quizz");
             controller.setCustomTitle("Échec!");
             controller.setImageView("/images/rejete.png");
             controller.setClosePopupStyle("button-failed");
@@ -101,4 +88,6 @@ public class AjouterQuestionController {
         popup.show(ownerWindow);
     }
 
+    public void UpdateQuizz(ActionEvent actionEvent) {
+    }
 }

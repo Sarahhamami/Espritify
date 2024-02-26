@@ -152,6 +152,7 @@
                                   <TableColumn fx:id="sujet" prefWidth="145.0" text="sujet" />
                                     <TableColumn fx:id="description" prefWidth="109.0" text="description" />
                                     <TableColumn fx:id="id_question" prefWidth="109.0" text="id_Question" />
+                                    <TableColumn fx:id="buttons" prefWidth="109.0" />
                                 </columns>
                               </TableView>
                            </children>

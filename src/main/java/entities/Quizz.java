@@ -23,6 +23,12 @@ public class Quizz {
         this.question = question;
     }
 
+    public Quizz(int idQuizz, String sujet, String descript) {
+        this.id_quizz = idQuizz;
+        this.sujet = sujet;
+        this.descript = descript;
+    }
+
     public int getId_quizz() {
         return id_quizz;
     }

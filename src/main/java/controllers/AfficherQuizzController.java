@@ -1,20 +1,12 @@
 package controllers;
-
-import controllers.AjouterReponseController;
-import entities.Question;
 import entities.Quizz;
-import entities.Reponse;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableCell;
@@ -29,12 +21,9 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import services.QuizzService;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AfficherQuizzController implements Initializable {
 
@@ -90,25 +79,11 @@ public class AfficherQuizzController implements Initializable {
     private final QuizzService qs= new QuizzService();
     private ObservableList<Quizz> dataList;
 
-    @FXML
-    void clickAdd() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/addReponse.fxml"));
-            BorderPane popupContent = loader.load();
-            Popup popup = new Popup();
-            popup.getContent().add(popupContent);
-            AjouterReponseController controller= loader.getController();
-            controller.setPopup(popup);
-            Stage primaryStage = (Stage) btnOrders.getScene().getWindow();
-            popup.show(primaryStage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeTable();
+        Delete();
+        Update();
         searchQuizz();
     }
 
@@ -120,8 +95,101 @@ public class AfficherQuizzController implements Initializable {
 
         dataList = FXCollections.observableArrayList(qs.readAll());
         tablequizz.setItems(dataList);
+
         searchQuizz();
     }
+
+    @FXML
+    void clickAdd() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/addQuizz.fxml"));
+            BorderPane popupContent = loader.load();
+            Popup popup = new Popup();
+            popup.getContent().add(popupContent);
+            AjouterQuizzController controller= loader.getController();
+            controller.setPopup(popup);
+            Stage primaryStage = (Stage) btnOrders.getScene().getWindow();
+            popup.show(primaryStage);
+            initializeTable();
+            dataList.clear(); // Clear the existing data
+            dataList.addAll(qs.readAll());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void Delete(){
+        TableColumn<Quizz, String> deleteItem = new TableColumn<>("");
+        Callback<TableColumn<Quizz, String>, TableCell<Quizz, String>> deleteCellFactory = (param) -> {
+            final TableCell<Quizz, String> cell = new TableCell<Quizz, String>() {
+                final Button deleteButton = new Button("Delete");
+
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        deleteButton.setOnAction(event -> {
+                            Quizz q = getTableView().getItems().get(getIndex());
+                            System.out.println(q.getQuestion() + q.getSujet());
+                            qs.delete(q);
+                            initializeTable();
+                        });
+                        setGraphic(deleteButton);
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        };
+        deleteItem.setCellFactory(deleteCellFactory);
+        tablequizz.getColumns().add(deleteItem);
+    }
+
+    void Update(){
+        TableColumn<Quizz, String> updateItem = new TableColumn<>("");
+        Callback<TableColumn<Quizz, String>, TableCell<Quizz, String>> updateCellFactory = (param) -> {
+            final TableCell<Quizz, String> cell = new TableCell<Quizz, String>() {
+                final Button updateButton = new Button("Update");
+
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        updateButton.setOnAction(event -> {
+                            Quizz q = getTableView().getItems().get(getIndex());
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/updateQuizz.fxml"));
+                                BorderPane popupContent = loader.load();
+                                UpdateQuizzController controller = loader.getController();
+                                controller.UpdateQuizz(event,q);
+                                Popup popup = new Popup();
+                                popup.getContent().add(popupContent);
+                                controller.setPopup(popup);
+                                Stage primaryStage = (Stage) btnOrders.getScene().getWindow();
+                                popup.show(primaryStage);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        setGraphic(updateButton);
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        };
+        updateItem.setCellFactory(updateCellFactory);
+        tablequizz.getColumns().add(updateItem);
+    }
+
 
     @FXML
     void searchQuizz() {
