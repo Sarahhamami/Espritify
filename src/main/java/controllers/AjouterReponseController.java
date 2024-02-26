@@ -44,7 +44,31 @@ public class AjouterReponseController implements Initializable{
     @FXML
     void AjouterReponse(ActionEvent event) throws IOException {
 
-        boolean addedSuccessfully = rs.add(new Reponse(contenu.getText()));
+        boolean addedSuccessfully = false;
+        String contenuText = contenu.getText();
+
+        if (contenuText.isEmpty() || !contenuText.matches("[a-zA-Z]+") || contenuText.length() > 6) {
+            errorLabel.setText("Veuillez entrer un contenu valide");
+            addBtn.setDisable(true);
+        } else {
+            addBtn.setDisable(false);
+        }
+
+        contenu.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.isEmpty() || !newValue.matches("[a-zA-Z0-9]+") || newValue.length() > 6) {
+                errorLabel.setText("Veuillez entrer un contenu valide");
+                addBtn.setDisable(true);
+            } else {
+                errorLabel.setText("");
+                addBtn.setDisable(false);
+            }
+        });
+
+        if (!addBtn.isDisabled()) {
+            addedSuccessfully = rs.add(new Reponse(contenuText));
+        }
+
+
         Node node = (Node) event.getSource();
         Window ownerWindow = node.getScene().getWindow();
 
@@ -71,14 +95,6 @@ public class AjouterReponseController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        contenu.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.isEmpty()) {
-                errorLabel.setText("Le champ ne peut pas être vide");
-                addBtn.setDisable(true);
-            } else {
-                errorLabel.setText("");
-                addBtn.setDisable(false);
-            }
-        });
+
     }
 }

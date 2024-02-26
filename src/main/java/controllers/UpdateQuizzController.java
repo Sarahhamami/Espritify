@@ -56,24 +56,29 @@ public class UpdateQuizzController {
         popup.hide();
     }
 
-    @FXML
-    public void UpdateQuizz(ActionEvent actionEvent,Quizz quizz) throws IOException {
+    public void setQuizzToUpdate(Quizz quizz) {
         this.quizzToUpdate = quizz;
-        id.setText(String.valueOf(quizz.getId_quizz()));
-        sujet.setText(quizz.getSujet());
-        description.setText(quizz.getDescript());
+    }
+
+    @FXML
+    public void UpdateQuizz(ActionEvent actionEvent) throws IOException {
+        System.out.println(quizzToUpdate);
+
+        id.setText(String.valueOf(quizzToUpdate.getId_quizz()));
+        sujet.setText(quizzToUpdate.getSujet());
+        description.setText(quizzToUpdate.getDescript());
+
+        boolean updatedSuccessfully = qs.update(new Quizz(quizzToUpdate.getId_quizz(), sujet.getText(), description.getText()));
 
 
-        boolean addedSuccessfully = qs.update(new Quizz(quizz.getId_quizz(),sujet.getText(),description.getText()));
         Node node = (Node) actionEvent.getSource();
         Window ownerWindow = node.getScene().getWindow();
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert.fxml"));
         AnchorPane popupContent = loader.load();
         Popup popup = new Popup();
         popup.getContent().add(popupContent);
         Alert controller = loader.getController();
-        if (addedSuccessfully) {
+        if (updatedSuccessfully) {
             controller.setCustomMsg("Update avec succès");
             controller.setCustomTitle("Succès!");
             controller.setImageView("/images/approuve.png");
@@ -88,6 +93,5 @@ public class UpdateQuizzController {
         popup.show(ownerWindow);
     }
 
-    public void UpdateQuizz(ActionEvent actionEvent) {
-    }
+
 }

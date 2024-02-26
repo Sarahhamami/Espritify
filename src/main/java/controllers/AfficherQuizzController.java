@@ -7,6 +7,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableCell;
@@ -110,9 +111,9 @@ public class AfficherQuizzController implements Initializable {
             controller.setPopup(popup);
             Stage primaryStage = (Stage) btnOrders.getScene().getWindow();
             popup.show(primaryStage);
-            initializeTable();
-            dataList.clear(); // Clear the existing data
-            dataList.addAll(qs.readAll());
+            popup.setOnHidden(event -> {
+                initializeTable();
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -165,11 +166,14 @@ public class AfficherQuizzController implements Initializable {
                     } else {
                         updateButton.setOnAction(event -> {
                             Quizz q = getTableView().getItems().get(getIndex());
+                            System.out.println(q);
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/updateQuizz.fxml"));
                                 BorderPane popupContent = loader.load();
                                 UpdateQuizzController controller = loader.getController();
-                                controller.UpdateQuizz(event,q);
+                                controller.setQuizzToUpdate(q);
+                                //System.out.println(q);
+                                controller.UpdateQuizz(event);
                                 Popup popup = new Popup();
                                 popup.getContent().add(popupContent);
                                 controller.setPopup(popup);
@@ -213,12 +217,24 @@ public class AfficherQuizzController implements Initializable {
         tablequizz.setItems(sortedData);
     }
 
-    public void AfficherReponse(MouseEvent mouseEvent) {
+    public void afficherQuizz(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/afficherQuizz.fxml"));
+        Parent root =loader.load();
+        AfficherQuizzController ars=loader.getController();
+        filterField.getScene().setRoot(root);
     }
 
-    public void AfficherQuestion(MouseEvent mouseEvent) {
+    public void AfficherQuestion(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/afficherQuestion.fxml"));
+        Parent root =loader.load();
+        AfficherQuestionController ars=loader.getController();
+        filterField.getScene().setRoot(root);
     }
 
-    public void afficherQuizz(MouseEvent mouseEvent) {
+    public void AfficherReponse(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/afficherReponse.fxml"));
+        Parent root =loader.load();
+        AfficherReponseController ars=loader.getController();
+        filterField.getScene().setRoot(root);
     }
 }

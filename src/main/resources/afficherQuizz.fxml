@@ -32,7 +32,7 @@
                         <Insets bottom="20.0" />
                     </VBox.margin>
                 </Label>
-                <Button fx:id="btnOverview" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onMouseClicked="#afficherQuizz" prefHeight="42.0" prefWidth="259.0" stylesheets="@/CSS/style.css" text="quizz" textFill="#e7e5e5">
+                <Button fx:id="btnQuizz" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onMouseClicked="#afficherQuizz" prefHeight="42.0" prefWidth="259.0" stylesheets="@/CSS/style.css" text="quizz" textFill="#e7e5e5">
                     <graphic>
                         <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -50,7 +50,7 @@
                         <Insets left="50.0" />
                     </padding>
                 </Button>
-                <Button fx:id="btnOrders" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onMouseClicked="#AfficherQuestion" prefHeight="42.0" prefWidth="259.0" stylesheets="@/CSS/style.css" text="question">
+                <Button fx:id="btnQuestion" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onMouseClicked="#AfficherQuestion" prefHeight="42.0" prefWidth="259.0" stylesheets="@/CSS/style.css" text="question">
                     <graphic>
                         <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -62,7 +62,7 @@
                         <Insets left="50.0" />
                     </padding>
                 </Button>
-                <Button fx:id="btnCustomers" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onMouseClicked="#AfficherReponse" prefHeight="42.0" prefWidth="259.0" stylesheets="@/CSS/style.css" text="reponse">
+                <Button fx:id="btnReponse" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onMouseClicked="#AfficherReponse" prefHeight="42.0" prefWidth="259.0" stylesheets="@/CSS/style.css" text="reponse">
                     <graphic>
                         <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -122,6 +122,7 @@
                         <Insets left="50.0" />
                     </padding>
                 </Button>
+                <Button fx:id="btnOrders" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="259.0" stylesheets="@/CSS/style.css" text="Menus" />
 
             </children>
         </VBox>

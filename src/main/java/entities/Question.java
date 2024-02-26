@@ -10,6 +10,12 @@ public class Question {
     private String bonne_rep;
     private int numQue;
 
+    private List<Reponse> reponses;
+
+    public Question() {
+        this.reponses= new ArrayList<>();
+    }
+
     public Question(int id_Que, String contenu, Reponse reponse, String bonne_rep, int numQue) {
         this.id_Que = id_Que;
         this.contenu = contenu;
@@ -65,6 +71,13 @@ public class Question {
         this.numQue = numQue;
     }
 
+    public List<Reponse> getReponses() {
+        return reponses;
+    }
+
+    public void setReponses(List<Reponse> reponses) {
+        this.reponses = reponses;
+    }
     @Override
     public String toString() {
         return "Question{" + "id_Que=" + id_Que + ", contenu='" + contenu + ", reponse=" + reponse + ", bonne_rep=" + bonne_rep + ", numQue=" + numQue + '}';

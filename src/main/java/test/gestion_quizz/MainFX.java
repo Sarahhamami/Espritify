@@ -15,8 +15,7 @@ public class MainFX extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/afficherQuizz.fxml"));
         stage.setScene(new Scene(root));
-        //set stage borderless
-        //stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.UNDECORATED);
 
         //drag it here
         root.setOnMousePressed(event -> {

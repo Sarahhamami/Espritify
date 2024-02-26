@@ -127,4 +127,30 @@ public class QuizzService implements IService<Quizz> {
         }
     }
 
+
+    public Quizz read(int num) {
+        String req = "SELECT quizz.id AS 'id', quizz.sujet AS 'sujet', quizz.description AS 'description', question.id_Question AS 'id_Question', question.contenu AS 'contenu', reponse.id_rep AS 'id_rep', reponse.reponse AS 'reponse', question.bonne_Rep AS 'bonne_Rep', question.num_Que AS 'num_Que' FROM quizz z JOIN question q ON z.id_Question = q.id_Que JOIN reponse r ON question.reponse = reponse.id_rep WHERE question.num_Que = ?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(req);
+            pst.setInt(1, num);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("id_Quizz");
+                String sujet = rs.getString("sujet");
+                String desc = rs.getString("description");
+                int id_Question = rs.getInt("id_Question");
+                String contenu = rs.getString("contenu");
+                Reponse reponse = new Reponse(rs.getInt("id_rep"), rs.getString("reponse"));
+                String bonne_Rep = rs.getString("bonne_Rep");
+                int num_Que = rs.getInt("num_Que");
+                Question question = new Question(id_Question, contenu, reponse, bonne_Rep, num_Que);
+                return new Quizz(id, sujet, desc, question);
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

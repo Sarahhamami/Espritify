@@ -48,7 +48,8 @@ public class Main {
         //Quizz qu= qz.readById(4);
         //System.out.println(qu);
 
-
+        //Quizz q= qz.read(1);
+        //System.out.println(q);
 
     }
 }

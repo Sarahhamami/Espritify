@@ -10,6 +10,13 @@ public class Quizz {
     private String descript;
     private Question question;
 
+    private List<Question> questions;
+
+
+    public Quizz() {
+        this.questions= new ArrayList<>();
+    }
+
     public Quizz(int id_quizz, String sujet, String descript, Question question) {
         this.id_quizz = id_quizz;
         this.sujet = sujet;
@@ -59,6 +66,14 @@ public class Quizz {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 
     @Override
