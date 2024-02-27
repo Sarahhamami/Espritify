@@ -46,4 +46,9 @@ public class UserService implements IService<User> {
     public User readById(int id) {
         return null;
     }
+
+    @Override
+    public List<User> readAllByID(int id) {
+        return null;
+    }
 }
