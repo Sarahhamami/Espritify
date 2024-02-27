@@ -1,5 +1,5 @@
 package services;
-import entities.categorie;
+import entities.Categorie;
 import utils.DataSources;
 
 import java.sql.*;
@@ -14,18 +14,23 @@ public class CategorieService {
     public CategorieService() {
         conn= DataSources.getInstance().getCnx();
     }
-    public void add(categorie c )
+    public boolean add(Categorie c )
     {
         String requete="insert into categorie (type) values ('"+c.getType()+"') ";
         try {
             ste=conn.createStatement();
-            ste.executeUpdate(requete);
+           int rows= ste.executeUpdate(requete);
+           if (rows>0){
+               return true;
+           }
+           else return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
     }
 
-    public void delete(categorie c) {
+    public void delete(Categorie c) {
         String requete= "delete from categorie where id='"+c.getId()+"'";
         try {
             ste=conn.createStatement();
@@ -35,7 +40,7 @@ public class CategorieService {
         }
     }
 
-    public void update(categorie c) {
+    public void update(Categorie c) {
         int id = c.getId();
         String type= c.getType();
         String req = "update categorie set type = ? where id= ?";
@@ -53,15 +58,15 @@ public class CategorieService {
 
     }
 
-    public List<categorie> readAll() {
+    public List<Categorie> readAll() {
         String requete="select * from categorie";
-        List<categorie> list=new ArrayList<>();
+        List<Categorie> list=new ArrayList<>();
         try {
             ste= conn.createStatement();
             ResultSet rs=ste.executeQuery(requete);
             while(rs.next())
             {
-                list.add(new categorie(rs.getInt("id"),rs.getString("type")));
+                list.add(new Categorie(rs.getInt("id"),rs.getString("type")));
 
             }
 
@@ -72,14 +77,14 @@ public class CategorieService {
         return list;
     }
 
-    public categorie readByid(int id) {
+    public Categorie readByid(int id) {
         String req = "SELECT * FROM categorie WHERE id = ?";
-        categorie categorie = null;
+        Categorie categorie = null;
         try (PreparedStatement ps = conn.prepareStatement(req)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    categorie = new categorie(rs.getInt("id"),rs.getString("type"));
+                    categorie = new Categorie(rs.getInt("id"),rs.getString("type"));
                 }
             }
         } catch (SQLException e) {

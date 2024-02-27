@@ -1,17 +1,17 @@
 package entities;
 
-public class categorie {
+public class Categorie {
     private int id;
     private String type;
 
-    public categorie() {}
+    public Categorie() {}
 
-    public categorie(int id, String type) {
+    public Categorie(int id, String type) {
         this.id = id;
         this.type = type;
     }
 
-    public categorie(String type) {
+    public Categorie(String type) {
         this.type = type;
     }
 

@@ -1,4 +1,4 @@
-package Controllers;
+/*package Controllers;
 
 import entities.categorie;
 import javafx.collections.FXCollections;
@@ -47,22 +47,7 @@ public class AfficherCategorieController implements Initializable {
 
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeTable();
-        searchCat();
-    }
 
-    public void initializeTable(){
-
-        idcat.setCellValueFactory(new PropertyValueFactory<>("id"));
-        typecat.setCellValueFactory(new PropertyValueFactory<>("type"));
-        ArrayList<categorie> listcat = (ArrayList<categorie>) cats.readAll();
-        dataList = FXCollections.observableArrayList(listcat); // Initializing dataList
-        tableView.setItems(dataList); // Setting items to tableView
-        searchCat();
-
-    }
 
     @FXML
     void searchCat() {
@@ -133,4 +118,188 @@ public class AfficherCategorieController implements Initializable {
         initializeTable();
 
     }
+}*/
+
+
+package Controllers;
+
+import entities.Categorie;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+import services.CategorieService;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+
+public class AfficherCategorieController implements Initializable {
+
+    @FXML
+    private Label TotalStage;
+
+    @FXML
+    private TableColumn actions;
+
+    @FXML
+    private Button btnCustomers;
+
+    @FXML
+    private Button btnMenus;
+
+    @FXML
+    private Button btnOrders;
+
+    @FXML
+    private Button btnOverview;
+
+    @FXML
+    private Button btnPackages;
+
+    @FXML
+    private Button btnSettings;
+
+    @FXML
+    private Button btnSignout;
+
+    @FXML
+    private TextField filterField;
+
+    @FXML
+    private VBox pnItems;
+
+    @FXML
+    private Pane pnlCustomer;
+
+    @FXML
+    private Pane pnlMenus;
+
+    @FXML
+    private Pane pnlOrders;
+
+    @FXML
+    private Pane pnlOverview;
+
+    @FXML
+    private TableView<Categorie> tablecat;
+
+    @FXML
+    private TableColumn<Categorie, String> type;
+
+    ObservableList<Categorie> dataList; // Declaring dataList
+
+    private final CategorieService cats = new CategorieService();
+
+
+    @FXML
+    void ajoutercat() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/ajoutercat.fxml"));
+            BorderPane popupContent = loader.load();
+            Popup popup=new Popup();
+            popup.getContent().add(popupContent);
+            Ajoutercat controller= loader.getController();
+            controller.setPopup(popup);
+            Stage primaryStage = (Stage) btnOrders.getScene().getWindow();
+            popup.show(primaryStage);
+            popup.setOnHidden(event -> {
+                initializeTable();
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    public void initializeTable(){
+
+        type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        dataList = FXCollections.observableArrayList(cats.readAll()); // Initializing dataList
+        tablecat.setItems(dataList); // Setting items to tableView
+        searchCat();
+
+
+    }
+
+
+    public void deleteBtn()
+    {
+        TableColumn<Categorie, String> deleteItem = new TableColumn<>("");
+
+        Callback<TableColumn<Categorie, String>, TableCell<Categorie, String>> deleteCellFactory = (param) -> {
+            final TableCell<Categorie, String> cell = new TableCell<Categorie, String>() {
+                final Button deleteButton = new Button("delete");
+
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        deleteButton.setOnAction(event -> {
+                            Categorie c = getTableView().getItems().get(getIndex());
+                            cats.delete(c);
+                            initializeTable();
+                        });
+                        setGraphic(deleteButton);
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+
+        };
+        deleteItem.setCellFactory(deleteCellFactory);
+        tablecat.getColumns().add(deleteItem);
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        initializeTable();
+        deleteBtn();
+        searchCat();
+
+
+    }
+
+    @FXML
+    void searchCat() {
+        FilteredList<Categorie> filteredData = new FilteredList<>(dataList, p -> true);
+
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(cat -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                return cat.getType().toLowerCase().contains(lowerCaseFilter);
+            });
+        });
+
+        SortedList<Categorie> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tablecat.comparatorProperty());
+        tablecat.setItems(sortedData);
+    }
+
+
+
 }

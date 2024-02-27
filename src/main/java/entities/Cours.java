@@ -4,42 +4,84 @@ public class Cours {
     private int id;
     private String titre;
     private boolean etat;
+    private String contenu;
+
+    private Categorie categorie;
 
     public Cours() {}
 
-    public Cours(int id, String titre, boolean etat) {
+    public Cours(int id, String titre, boolean etat, String contenu, Categorie categorie) {
         this.id = id;
         this.titre = titre;
         this.etat = etat;
+        this.contenu = contenu;
+        this.categorie=categorie;
     }
 
-    public Cours(String titre, boolean etat) {
+    public Cours(int id, String titre, boolean etat, String contenu) {
+        this.id = id;
         this.titre = titre;
         this.etat = etat;
+        this.contenu = contenu;
+    }
+
+    public Cours(String titre, boolean etat, String contenu, Categorie categorie) {
+        this.titre = titre;
+        this.etat = etat;
+        this.contenu = contenu;
+        this.categorie=categorie;
+    }
+
+    public Cours(String titre, boolean etat, String contenu) {
+        this.titre = titre;
+        this.etat = etat;
+        this.contenu = contenu;
+    }
+
+    public Cours(int id, String titre, String contenu) {
+        this.id = id;
+        this.titre = titre;
+        this.contenu = contenu;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getTitre() {
-        return titre;
-    }
-
-    public boolean isEtat() {
-        return etat;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTitre() {
+        return titre;
     }
 
     public void setTitre(String titre) {
         this.titre = titre;
     }
 
+    public boolean isEtat() {
+        return etat;
+    }
+
     public void setEtat(boolean etat) {
         this.etat = etat;
+    }
+
+    public String getContenu() {
+        return contenu;
+    }
+
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public Categorie getcat() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
     }
 
     @Override
@@ -48,6 +90,8 @@ public class Cours {
                 "id=" + id +
                 ", titre='" + titre + '\'' +
                 ", etat=" + etat +
+                ", contenu='" + contenu + '\'' +
+                ", categorie=" + categorie +
                 '}';
     }
 }

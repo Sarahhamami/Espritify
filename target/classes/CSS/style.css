@@ -1,0 +1,139 @@
+
+.button
+{
+    -fx-background-color : #990000;
+    -fx-text-fill :#A6A6A6;
+
+}
+.button:hover{
+    -fx-background-color : #ffffff;
+    -fx-text-fill: #990000;
+}
+.button:pressed
+{
+    -fx-background-color : #ffffff;
+}
+
+.scroll-pane {
+    -fx-background-color: #ffffff;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #A6A6A6;
+    -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: #ffffff;
+}
+
+
+
+.input-field-add {
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-pref-width: 300px;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-border-color: #ccc;
+}
+
+.check-box-add {
+    -fx-font-size: 14px;
+}
+
+.sign-up-button-add {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.sign-up-button-add:hover {
+    -fx-background-color: #0056b3;
+}
+* {
+    -fx-darkest-grey-color: #323232;
+}
+
+.radio-button .radio {
+    -fx-border-width: 1px;
+    -fx-border-color: -fx-darkest-grey-color;
+    -fx-background-color: white;
+    -fx-background-image: null;
+    -fx-border-radius: 5px;
+    -fx-padding: 2px;
+}
+.radio-button .radio:selected {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+.radio-button -radio:armed {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+.radio-button -radio:determinate {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+.radio-button -radio:indeterminate {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+.radio-button .dot {
+    -fx-background-radius: 10px;
+    -fx-padding: 8px;
+}
+
+
+.button-success
+{
+    -fx-background-color : #6bb577;
+    -fx-text-fill :white;
+    -fx-alignment: center;
+}
+.button-success:hover{
+    -fx-background-color : #45895d;
+    -fx-text-fill: white;
+}
+.button:pressed
+{
+    -fx-background-color : #ffffff;
+}
+
+
+
+
+
+/* failed button*/
+
+.button-failed
+{
+    -fx-background-color : #dd4752;
+    -fx-text-fill :white;
+    -fx-alignment: center;
+}
+.button-failed:hover{
+    -fx-background-color : #962445;
+    -fx-text-fill: white;
+}
+

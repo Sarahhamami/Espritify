@@ -1,16 +1,13 @@
 package org.example;
-import entities.categorie;
+import entities.Cours;
+import entities.Categorie;
 import services.CategorieService;
-import utils.DataSources;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import services.CoursService;
 
 public class MainCategorie {
     public static void main(String[] args) {
-        categorie cat1=new categorie(2,"rr");
-        categorie cat=new categorie();
+        Categorie cat1=new Categorie(5,"ons");
+        Categorie cat=new Categorie();
         CategorieService cats=new CategorieService();
 
         //cats.add(cat1);
@@ -19,5 +16,17 @@ public class MainCategorie {
         //cats.readAll().forEach(System.out::println);
         //cat=cats.readByid(4);
         //System.out.println(cat);
+
+        Cours c1=new Cours("java",true,"test",cat1);
+        Cours c2=new Cours(3,"python",true,"test",cat1);
+        Cours c=new Cours();
+        CoursService cs=new CoursService();
+
+        //cs.add(c2);
+        //cs.delete(c2);
+        //cs.update(c2);
+        cs.readAll().forEach(System.out::println);
+        //c=cs.readById(1);
+        //System.out.println(c);
     }
 }
