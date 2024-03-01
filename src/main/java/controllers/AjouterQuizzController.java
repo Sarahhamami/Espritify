@@ -1,13 +1,15 @@
-package controllers;
+package Controllers;
 
-import entities.Question;
-import entities.Quizz;
-import entities.Reponse;
+import Entities.Question;
+import Entities.Quizz;
+import Services.QuestionServices;
+import Services.QuizzServices;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -17,14 +19,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
-import services.QuestionServices;
-import services.QuizzService;
-import services.ReponseServices;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class AjouterQuizzController {
+public class AjouterQuizzController implements Initializable {
 
     @FXML
     private Button addBtn;
@@ -33,23 +34,25 @@ public class AjouterQuizzController {
     private Button cancelBtn;
 
     @FXML
-    private TextField desc;
+    private TextField description;
 
     @FXML
-    private ChoiceBox<Question> question;
+    private Label errordesc;
+
+    @FXML
+    private Label errorquestion;
+
+    @FXML
+    private Label errorsujet;
+
+    @FXML
+    private ChoiceBox<Question> questions;
 
     @FXML
     private TextField sujet;
 
-    @FXML
-    private Label errordesc;
-    @FXML
-    private Label errorsujet;
-    @FXML
-    private Label errorrep;
-
+    QuizzServices qz = new QuizzServices();
     QuestionServices qs = new QuestionServices();
-    QuizzService qz = new QuizzService();
 
     private Popup popup;
 
@@ -62,38 +65,37 @@ public class AjouterQuizzController {
         popup.hide();
     }
 
-    @FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         List<Question> QuestionList = qs.readAll();
         ObservableList<Question> observableResponseList = FXCollections.observableArrayList(QuestionList);
-        question.setItems(observableResponseList);
+        questions.setItems(observableResponseList);
 
-        question.setConverter(new StringConverter<Question>() {
+        questions.setConverter(new StringConverter<Question>() {
             @Override
             public String toString(Question question) {
                 return question!= null ? question.getContenu() : null;
             }
-
 
             @Override
             public Question fromString(String s) {
                 return null;
             }
         });
-
     }
+
 
     @FXML
     void AjouterQuizz(ActionEvent event) throws IOException {
         boolean addedSuccessfully = false;
         String sujetText = sujet.getText();
-        String DescText = desc.getText();
-        String QuesText = question.getValue().toString();
+        String DescText = description.getText();
+        String QuesText = questions.getValue().toString();
 
-        if (sujetText.isEmpty() || !sujetText.matches("[a-zA-Z]+") || sujetText.length() > 6) {
+        if (sujetText.isEmpty() || !sujetText.matches("[a-zA-Z]+") || sujetText.length() > 8) {
             errorsujet.setText("Veuillez entrer un sujet valide");
             addBtn.setDisable(true);
-        }else if(DescText.isEmpty() || !DescText.matches("[a-zA-Z]+") || DescText.length() > 6){
+        }else if(DescText.isEmpty() || !DescText.matches("[a-zA-Z]+") || DescText.length() > 8){
             errordesc.setText("Veuillez entrer une description valide");
             addBtn.setDisable(true);
         } else if(QuesText.isEmpty()){
@@ -111,9 +113,9 @@ public class AjouterQuizzController {
                 addBtn.setDisable(false);
             }
         });
-        desc.textProperty().addListener((observable, oldValue, newValue) -> {
+        description.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty() || !newValue.matches("[a-zA-Z0-9]+") || newValue.length() > 5) {
-                errordesc.setText("Veuillez entrer un contenu valide");
+                errordesc.setText("Veuillez entrer une description valide");
                 addBtn.setDisable(true);
             } else {
                 errorsujet.setText("");
@@ -121,7 +123,7 @@ public class AjouterQuizzController {
             }
         });
         if (!addBtn.isDisabled()) {
-            addedSuccessfully = qz.add(new Quizz(sujet.getText(),desc.getText(), (Question) question.getValue()));
+            addedSuccessfully = qz.add(new Quizz(questions.getValue(),sujet.getText(), description.getText()));
         }
 
 
@@ -146,5 +148,4 @@ public class AjouterQuizzController {
         controller.setPopup(popup);
         popup.show(ownerWindow);
     }
-
 }

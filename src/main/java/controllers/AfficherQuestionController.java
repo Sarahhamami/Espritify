@@ -1,10 +1,12 @@
-package controllers;
+package Controllers;
 
-import entities.Question;
+import Entities.Question;
+import Services.QuestionServices;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,14 +20,30 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import services.QuestionServices;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AfficherQuestionController implements Initializable {
+
     @FXML
-    private Button btnOrders;
+    private Button btnMenus;
+
+    @FXML
+    private Button btnPackages;
+
+    @FXML
+    private Button btnQuestion;
+
+    @FXML
+    private Button btnQuizz;
+
+    @FXML
+    private Button btnSettings;
+
+    @FXML
+    private Button btnSignout;
 
     @FXML
     private VBox pnItems;
@@ -42,67 +60,64 @@ public class AfficherQuestionController implements Initializable {
     @FXML
     private Pane pnlReponse;
 
-    @FXML
-    private TableColumn<Question, String> bon_Que;
-
-    @FXML
-    private TableColumn<Question, String> contenu;
-
-    @FXML
-    private TableColumn<Question, Integer> id_Question;
-
-    @FXML
-    private TableColumn<Question, Integer> num_Que;
-
-    @FXML
-    private TableColumn<Question, String> reponse;
-
-    @FXML
-    private TableView<Question> tablequizz;
 
     @FXML
     private TextField filterField;
+    @FXML
+    private TableColumn<Question, String> contenu;
+    @FXML
+    private TableColumn<Question, String> bonReponse;
+
+    @FXML
+    private TableColumn<Question, String> reponse1;
+
+    @FXML
+    private TableColumn<Question, String> reponse2;
+
+    @FXML
+    private TableColumn<Question, String> reponse3;
+
+    @FXML
+    private TableView<Question> tablequestion;
 
     private final QuestionServices qs= new QuestionServices();
     private ObservableList<Question> dataList;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeTable();
+        searchQuestion();
         Delete();
-        //Update();
-        searchQuizz();
+        Update();
     }
 
     private void initializeTable() {
-        id_Question.setCellValueFactory(new PropertyValueFactory<>("id_Que"));
         contenu.setCellValueFactory(new PropertyValueFactory<>("contenu"));
-        reponse.setCellValueFactory(new PropertyValueFactory<>("reponse"));
-        bon_Que.setCellValueFactory(new PropertyValueFactory<>("bonne_rep"));
-        num_Que.setCellValueFactory(new PropertyValueFactory<>("numQue"));
-
+        reponse1.setCellValueFactory(new PropertyValueFactory<>("reponse1"));
+        reponse2.setCellValueFactory(new PropertyValueFactory<>("reponse2"));
+        reponse3.setCellValueFactory(new PropertyValueFactory<>("reponse3"));
+        bonReponse.setCellValueFactory(new PropertyValueFactory<>("bonneReponse"));
         dataList = FXCollections.observableArrayList(qs.readAll());
-        tablequizz.setItems(dataList);
-        searchQuizz();
+        tablequestion.setItems(dataList);
+        searchQuestion();
     }
 
-    @FXML
-    void clickAdd() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/addQuestion.fxml"));
-            BorderPane popupContent = loader.load();
-            Popup popup = new Popup();
-            popup.getContent().add(popupContent);
-            AjouterQuestionController controller= loader.getController();
-            controller.setPopup(popup);
-            Stage primaryStage = (Stage) btnOrders.getScene().getWindow();
-            popup.show(primaryStage);
-            popup.setOnHidden(event -> {
-                initializeTable();
+    void searchQuestion() {
+        FilteredList<Question> filteredData = new FilteredList<>(dataList, p -> true);
+
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(quizz -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                return String.valueOf(quizz.getContenu()).toLowerCase().contains(lowerCaseFilter);
             });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
+        SortedList<Question> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tablequestion.comparatorProperty());
+        tablequestion.setItems(sortedData);
     }
 
     void Delete(){
@@ -110,7 +125,6 @@ public class AfficherQuestionController implements Initializable {
         Callback<TableColumn<Question, String>, TableCell<Question, String>> deleteCellFactory = (param) -> {
             final TableCell<Question, String> cell = new TableCell<Question, String>() {
                 final Button deleteButton = new Button("Delete");
-
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -121,7 +135,7 @@ public class AfficherQuestionController implements Initializable {
                     } else {
                         deleteButton.setOnAction(event -> {
                             Question q = getTableView().getItems().get(getIndex());
-                            System.out.println(q.getId_Que() + q.getContenu());
+                            System.out.println(q.getId_question() + q.getContenu());
                             qs.delete(q);
                             initializeTable();
                         });
@@ -133,14 +147,13 @@ public class AfficherQuestionController implements Initializable {
             return cell;
         };
         deleteItem.setCellFactory(deleteCellFactory);
-        tablequizz.getColumns().add(deleteItem);
+        tablequestion.getColumns().add(deleteItem);
     }
 
-    /*
     void Update(){
         TableColumn<Question, String> updateItem = new TableColumn<>("");
         Callback<TableColumn<Question, String>, TableCell<Question, String>> updateCellFactory = (param) -> {
-            final TableCell<Quizz, String> cell = new TableCell<Question, String>() {
+            final TableCell<Question, String> cell = new TableCell<Question, String>() {
                 final Button updateButton = new Button("Update");
 
                 @Override
@@ -154,15 +167,23 @@ public class AfficherQuestionController implements Initializable {
                         updateButton.setOnAction(event -> {
                             Question q = getTableView().getItems().get(getIndex());
                             try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/updateQuizz.fxml"));
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/updateQuestion.fxml"));
                                 BorderPane popupContent = loader.load();
-                                UpdateQuizzController controller = loader.getController();
-                                controller.UpdateQuizz(event,q);
+                                UpdateQuestionController controller = loader.getController();
+                                controller.setId(q.getId_question());
+                                controller.setContenu(q.getContenu());
+                                controller.setRep1(q.getReponse1());
+                                controller.setRep2(q.getReponse2());
+                                controller.setRep3(q.getReponse3());
+                                controller.setBonRep(q.getBonneReponse());
                                 Popup popup = new Popup();
                                 popup.getContent().add(popupContent);
                                 controller.setPopup(popup);
-                                Stage primaryStage = (Stage) btnOrders.getScene().getWindow();
+                                Stage primaryStage = (Stage) btnQuestion.getScene().getWindow();
                                 popup.show(primaryStage);
+                                popup.setOnHidden(event1 -> {
+                                    initializeTable();
+                                });
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -175,32 +196,29 @@ public class AfficherQuestionController implements Initializable {
             return cell;
         };
         updateItem.setCellFactory(updateCellFactory);
-        tablequizz.getColumns().add(updateItem);
+        tablequestion.getColumns().add(updateItem);
     }
-    */
 
-    void searchQuizz() {
-        FilteredList<Question> filteredData = new FilteredList<>(dataList, p -> true);
-
-        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(quizz -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                return String.valueOf(quizz.getId_Que()).toLowerCase().contains(lowerCaseFilter)
-                        || String.valueOf(quizz.getContenu()).toLowerCase().contains(lowerCaseFilter);
+    @FXML
+    void clickAdd() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/addQuestion.fxml"));
+            BorderPane popupContent = loader.load();
+            Popup popup = new Popup();
+            popup.getContent().add(popupContent);
+            AjouterQuestionController controller= loader.getController();
+            controller.setPopup(popup);
+            Stage primaryStage = (Stage) btnQuestion.getScene().getWindow();
+            popup.show(primaryStage);
+            popup.setOnHidden(event -> {
+                initializeTable();
             });
-        });
-
-        SortedList<Question> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(tablequizz.comparatorProperty());
-        tablequizz.setItems(sortedData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void afficherQuizz(MouseEvent mouseEvent) throws IOException {
+    public void AfficherQuizz(MouseEvent mouseEvent) throws IOException {
         FXMLLoader loader =new FXMLLoader(getClass().getResource("/afficherQuizz.fxml"));
         Parent root =loader.load();
         AfficherQuizzController ars=loader.getController();
@@ -211,13 +229,6 @@ public class AfficherQuestionController implements Initializable {
         FXMLLoader loader =new FXMLLoader(getClass().getResource("/afficherQuestion.fxml"));
         Parent root =loader.load();
         AfficherQuestionController ars=loader.getController();
-        filterField.getScene().setRoot(root);
-    }
-
-    public void AfficherReponse(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader loader =new FXMLLoader(getClass().getResource("/afficherReponse.fxml"));
-        Parent root =loader.load();
-        AfficherReponseController ars=loader.getController();
         filterField.getScene().setRoot(root);
     }
 }

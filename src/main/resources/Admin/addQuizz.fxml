@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterQuizzController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterQuizzController">
     <left>
         <AnchorPane prefHeight="400.0" prefWidth="230.0" style="-fx-background-color: #990000;" BorderPane.alignment="CENTER">
             <children>
@@ -27,13 +27,13 @@
     <right>
         <AnchorPane prefHeight="400.0" prefWidth="403.0" BorderPane.alignment="CENTER">
             <children>
-                <Text fill="#404040" layoutX="49.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajout Quizz" wrappingWidth="298.24869537353516">
+                <Text fill="#404040" layoutX="11.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajout Quizz" wrappingWidth="298.24869537353516">
                     <font>
                         <Font name="Wingdings 3" size="27.0" />
                     </font>
                 </Text>
-                <TextField fx:id="sujet" layoutX="47.0" layoutY="101.0" prefHeight="27.0" prefWidth="279.0" promptText="sujet" style="-fx-background-color: transparent; -fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px;" />
-                <Button fx:id="addBtn" layoutX="149.0" layoutY="319.0" mnemonicParsing="false" onAction="#AjouterQuizz" prefHeight="32.0" prefWidth="76.0" stylesheets="@../CSS/style.css" text="Ajouter" textFill="WHITE">
+                <TextField fx:id="sujet" layoutX="47.0" layoutY="52.0" prefHeight="27.0" prefWidth="279.0" promptText="sujet" style="-fx-background-color: transparent; -fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px;" />
+                <Button fx:id="addBtn" layoutX="150.0" layoutY="330.0" mnemonicParsing="false" onAction="#AjouterQuizz" prefHeight="32.0" prefWidth="76.0" stylesheets="@../CSS/style.css" text="Ajouter" textFill="WHITE">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor></Button>
@@ -47,11 +47,11 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <ChoiceBox fx:id="question" layoutX="48.0" layoutY="214.0" prefHeight="25.0" prefWidth="280.0" style="-fx-background-color: transparent; -fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px;" />
-                <TextField fx:id="desc" layoutX="48.0" layoutY="154.0" prefHeight="27.0" prefWidth="279.0" promptText="description" style="-fx-background-color: transparent; -fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px;" />
-            <Label fx:id="errorsujet" layoutX="47.0" layoutY="128.0" prefHeight="17.0" prefWidth="278.0" />
-            <Label fx:id="errordesc" layoutX="48.0" layoutY="181.0" prefHeight="17.0" prefWidth="278.0" />
-            <Label fx:id="errorRep" layoutX="49.0" layoutY="241.0" prefHeight="17.0" prefWidth="278.0" />
+                <TextField fx:id="description" layoutX="48.0" layoutY="105.0" prefHeight="27.0" prefWidth="279.0" promptText="description" style="-fx-background-color: transparent; -fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px;" />
+            <ChoiceBox fx:id="questions" layoutX="50.0" layoutY="162.0" prefHeight="25.0" prefWidth="277.0" style="-fx-background-color: Transparent; -fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px;" />
+            <Label fx:id="errorsujet" layoutX="47.0" layoutY="79.0" prefHeight="17.0" prefWidth="278.0" />
+            <Label fx:id="errordesc" layoutX="49.0" layoutY="132.0" prefHeight="17.0" prefWidth="278.0" />
+            <Label fx:id="errorquestion" layoutX="49.0" layoutY="192.0" prefHeight="17.0" prefWidth="278.0" />
 
             </children>
         </AnchorPane>

@@ -1,39 +1,49 @@
-package entities;
-import entities.Question;
+package Entities;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Quizz {
     private int id_quizz;
+    private Question id_question;
     private String sujet;
-    private String descript;
-    private Question question;
-
+    private String description;
     private List<Question> questions;
 
-
-    public Quizz() {
-        this.questions= new ArrayList<>();
+    public Quizz(int id_quizz, Question id_question, String sujet, String description, List<Question> questions) {
+        this.id_quizz = id_quizz;
+        this.id_question = id_question;
+        this.sujet = sujet;
+        this.description = description;
+        this.questions = questions;
     }
 
-    public Quizz(int id_quizz, String sujet, String descript, Question question) {
+    public Quizz(Question id_question, String sujet, String description) {
+        this.id_question = id_question;
+        this.sujet = sujet;
+        this.description = description;
+    }
+
+    public Quizz(int id_quizz, Question id_question, String sujet, String description) {
+        this.id_quizz = id_quizz;
+        this.id_question = id_question;
+        this.sujet = sujet;
+        this.description = description;
+    }
+
+    public Quizz(int id_quizz, String sujet, String description) {
         this.id_quizz = id_quizz;
         this.sujet = sujet;
-        this.descript = descript;
-        this.question = question;
+        this.description = description;
     }
 
-    public Quizz(String sujet, String descript, Question question) {
+    public Quizz(String sujet, String description) {
         this.sujet = sujet;
-        this.descript = descript;
-        this.question = question;
+        this.description = description;
     }
 
-    public Quizz(int idQuizz, String sujet, String descript) {
-        this.id_quizz = idQuizz;
-        this.sujet = sujet;
-        this.descript = descript;
+    public Quizz() {
+        this.questions = new ArrayList<>();
     }
 
     public int getId_quizz() {
@@ -44,6 +54,14 @@ public class Quizz {
         this.id_quizz = id_quizz;
     }
 
+    public Question getId_question() {
+        return id_question;
+    }
+
+    public void setId_question(Question id_question) {
+        this.id_question = id_question;
+    }
+
     public String getSujet() {
         return sujet;
     }
@@ -52,20 +70,12 @@ public class Quizz {
         this.sujet = sujet;
     }
 
-    public String getDescript() {
-        return descript;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescript(String descript) {
-        this.descript = descript;
-    }
-
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<Question> getQuestions() {
@@ -78,6 +88,12 @@ public class Quizz {
 
     @Override
     public String toString() {
-        return "Quizz{" + "id_quizz=" + id_quizz + ", sujet='" + sujet + ", descript='" + descript + ", question=" + question + '}';
+        return "Quizz{" +
+                "id_quizz=" + id_quizz +
+                ", id_question=" + id_question +
+                ", sujet='" + sujet + '\'' +
+                ", description='" + description + '\'' +
+                ", questions=" + questions +
+                '}';
     }
 }

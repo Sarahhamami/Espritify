@@ -1,39 +1,40 @@
-package controllers;
+package Controllers;
 
-import entities.Quizz;
-import entities.Reponse;
-import javafx.event.ActionEvent;
+import Entities.Question;
+import Entities.Quizz;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import services.QuizzService;
+import Services.QuizzServices;
+import javafx.scene.control.Alert;
+import javafx.event.ActionEvent;
+import javafx.stage.Popup;
+import javafx.stage.Window;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Quizzes  {
+public class Quizzes {
 
     @FXML
     private AnchorPane MainPane;
-    @FXML
-    private AnchorPane q1;
-    @FXML
-    private AnchorPane q2;
-    @FXML
-    private AnchorPane q3;
 
     @FXML
     private Text question;
-    @FXML
-    private Text reponse1;
 
     @FXML
-    private Text reponse2;
+    private Button reponse1;
 
     @FXML
-    private Text reponse3;
+    private Button reponse2;
+
+    @FXML
+    private Button reponse3;
 
     @FXML
     private Button btnretour;
@@ -41,60 +42,118 @@ public class Quizzes  {
     @FXML
     private Button btnsuivant;
 
-    int i= 0;
+    private List<Quizz> quizzList;
+    private int currentIndex;
 
-
-
-    QuizzService qs = new QuizzService();
+    private QuizzServices qs = new QuizzServices();
 
     public void initialize() {
-
-        actualise(qs.readAll());
+        quizzList = qs.readAll();
+        currentIndex = 0;
+        updateUI();
     }
 
-    void actualise(List<Quizz> quizzList){
-        if(quizzList.size()-1-i*3>0){
-            btnsuivant.setVisible(true);
-        }
-        if(quizzList.size()-1-i*3 <= 0){
-            btnsuivant.setVisible(false);
-        }
-        if(i > 0){
-            btnretour.setVisible(true);
-        }
-        if(i == 0){
+    private void updateUI() {
+        if (quizzList.isEmpty()) {
+            question.setText("Aucun quizz disponible");
+            reponse1.setText("");
+            reponse2.setText("");
+            reponse3.setText("");
             btnretour.setVisible(false);
-        }
-        /*
-        if (!quizzList.isEmpty()) {
-            Quizz currentQuizz = quizzList.get(i);
-            question.setText(currentQuizz.getQuestions().get(0).getContenu());
-
-            List<Reponse> reponses = currentQuizz.getQuestions().get(0).getReponses();
-            if (!reponses.isEmpty()) {
-                reponse1.setText(reponses.get(0).getContenu());
-            }
-            if (reponses.size() >= 2) {
-                reponse2.setText(reponses.get(1).getContenu());
-            }
-            if (reponses.size() >= 3) {
-                reponse3.setText(reponses.get(2).getContenu());
-            }
+            btnsuivant.setVisible(false);
+            return;
         }
 
-         */
+        Quizz currentQuizz = quizzList.get(currentIndex);
+        Question currentQuestion = currentQuizz.getId_question();
+        question.setText(currentQuestion.getContenu());
+
+        List<String> reponses = new ArrayList<>();
+        reponses.add(currentQuizz.getId_question().getReponse1());
+        reponses.add(currentQuizz.getId_question().getReponse2());
+        reponses.add(currentQuizz.getId_question().getReponse3());
+
+        for (int i = 0; i < 3; i++) {
+            if (i < reponses.size()) {
+                switch (i) {
+                    case 0:
+                        reponse1.setText(reponses.get(i));
+                        break;
+                    case 1:
+                        reponse2.setText(reponses.get(i));
+                        break;
+                    case 2:
+                        reponse3.setText(reponses.get(i));
+                        break;
+                }
+            } else {
+                switch (i) {
+                    case 0:
+                        reponse1.setText("");
+                        break;
+                    case 1:
+                        reponse2.setText("");
+                        break;
+                    case 2:
+                        reponse3.setText("");
+                        break;
+                }
+            }
+        }
+        btnretour.setVisible(currentIndex > 0);
+        btnsuivant.setVisible(currentIndex < quizzList.size() - 1);
     }
 
     @FXML
-    void retour(ActionEvent event) {
-        i -=1;
-        actualise(qs.readAll());
+    void verifyResponses(ActionEvent event) throws IOException {
+        Quizz currentQuizz = quizzList.get(currentIndex);
+        Question currentQuestion = currentQuizz.getId_question();
+
+        String selectedResponse = ((Button) event.getSource()).getText();
+        String correctResponse = currentQuestion.getBonneReponse();
+
+        boolean isCorrect = selectedResponse.equals(correctResponse);
+
+        Node node = (Node) event.getSource();
+        Window ownerWindow = node.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert.fxml"));
+        AnchorPane popupContent = loader.load();
+        Popup popup = new Popup();
+        popup.getContent().add(popupContent);
+        Controllers.Alert controller = loader.getController();
+        if (isCorrect) {
+            controller.setCustomMsg("Félicitations, les réponses sont correctes.");
+            controller.setCustomTitle("Réponses correctes!");
+            controller.setImageView("/images/approuve.png");
+            controller.setClosePopupStyle("button-success");
+        } else {
+            controller.setCustomMsg("Désolé, les réponses ne sont pas correctes. Veuillez réessayer");
+            controller.setCustomTitle("Réponses incorrectes!");
+            controller.setImageView("/images/rejete.png");
+            controller.setClosePopupStyle("button-failed");
+        }
+        controller.setPopup(popup);
+        popup.show(ownerWindow);
+    }
+
+    public void onResponseClicked(ActionEvent event) throws IOException {
+        Button clickedButton = (Button) event.getSource();
+        clickedButton.getText();
+        verifyResponses(event);
     }
 
     @FXML
-    void suivant(ActionEvent event) {
-        i +=1;
-        actualise(qs.readAll());
-
+    void retour() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateUI();
+        }
+    }
+    @FXML
+    void suivant() {
+        if (currentIndex < quizzList.size() - 1) {
+            currentIndex++;
+            updateUI();
+        }
     }
 }

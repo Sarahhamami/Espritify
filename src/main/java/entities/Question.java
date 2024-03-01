@@ -1,42 +1,45 @@
-package entities;
-
-import java.util.ArrayList;
-import java.util.List;
+package Entities;
 
 public class Question {
-    private int id_Que;
+    private int id_question;
     private String contenu;
-    private Reponse reponse;
-    private String bonne_rep;
-    private int numQue;
+    private String reponse1;
+    private String reponse2;
+    private String reponse3;
+    private String bonneReponse;
 
-    private List<Reponse> reponses;
-
-    public Question() {
-        this.reponses= new ArrayList<>();
-    }
-
-    public Question(int id_Que, String contenu, Reponse reponse, String bonne_rep, int numQue) {
-        this.id_Que = id_Que;
+    public Question(int id_question, String contenu, String reponse1, String reponse2, String reponse3, String bonneReponse) {
+        this.id_question = id_question;
         this.contenu = contenu;
-        this.reponse = reponse;
-        this.bonne_rep = bonne_rep;
-        this.numQue = numQue;
+        this.reponse1 = reponse1;
+        this.reponse2 = reponse2;
+        this.reponse3 = reponse3;
+        this.bonneReponse = bonneReponse;
     }
 
-    public Question(String contenu, Reponse reponse, String bonne_rep, int numQue) {
+    public Question(String contenu, String reponse1, String reponse2, String reponse3, String bonneReponse) {
         this.contenu = contenu;
-        this.reponse = reponse;
-        this.bonne_rep = bonne_rep;
-        this.numQue = numQue;
+        this.reponse1 = reponse1;
+        this.reponse2 = reponse2;
+        this.reponse3 = reponse3;
+        this.bonneReponse = bonneReponse;
     }
 
-    public int getId_Que() {
-        return id_Que;
+    //en cas d'ajouter 3 reponse
+    public Question(int id_question, String contenu, String reponse1, String reponse2, String bonneReponse) {
+        this.id_question = id_question;
+        this.contenu = contenu;
+        this.reponse1 = reponse1;
+        this.reponse2 = reponse2;
+        this.bonneReponse = bonneReponse;
     }
 
-    public void setId_Que(int id_Que) {
-        this.id_Que = id_Que;
+    public int getId_question() {
+        return id_question;
+    }
+
+    public void setId_question(int id_question) {
+        this.id_question = id_question;
     }
 
     public String getContenu() {
@@ -47,39 +50,47 @@ public class Question {
         this.contenu = contenu;
     }
 
-    public Reponse getReponse() {
-        return reponse;
+    public String getReponse1() {
+        return reponse1;
     }
 
-    public void setReponse(Reponse reponse) {
-        this.reponse = reponse;
+    public void setReponse1(String reponse1) {
+        this.reponse1 = reponse1;
     }
 
-    public String isBonne_rep() {
-        return bonne_rep;
+    public String getReponse2() {
+        return reponse2;
     }
 
-    public void setBonne_rep(String bonne_rep) {
-        this.bonne_rep = bonne_rep;
+    public void setReponse2(String reponse2) {
+        this.reponse2 = reponse2;
     }
 
-    public int getNumQue() {
-        return numQue;
+    public String getReponse3() {
+        return reponse3;
     }
 
-    public void setNumQue(int numQue) {
-        this.numQue = numQue;
+    public void setReponse3(String reponse3) {
+        this.reponse3 = reponse3;
     }
 
-    public List<Reponse> getReponses() {
-        return reponses;
+    public String getBonneReponse() {
+        return bonneReponse;
     }
 
-    public void setReponses(List<Reponse> reponses) {
-        this.reponses = reponses;
+    public void setBonneReponse(String bonneReponse) {
+        this.bonneReponse = bonneReponse;
     }
+
     @Override
     public String toString() {
-        return "Question{" + "id_Que=" + id_Que + ", contenu='" + contenu + ", reponse=" + reponse + ", bonne_rep=" + bonne_rep + ", numQue=" + numQue + '}';
+        return "Question{" +
+                "id_question=" + id_question +
+                ", contenu='" + contenu + '\'' +
+                ", reponse1='" + reponse1 + '\'' +
+                ", reponse2='" + reponse2 + '\'' +
+                ", reponse3='" + reponse3 + '\'' +
+                ", bonneReponse='" + bonneReponse + '\'' +
+                '}';
     }
 }

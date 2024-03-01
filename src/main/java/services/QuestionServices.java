@@ -1,13 +1,14 @@
-package services;
+package Services;
 
-import entities.Question;
-import entities.Reponse;
-import utils.dbConnection;
+import Entities.Question;
+import Utils.dbConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionServices implements IService<Question> {
+public class QuestionServices implements IService<Question>{
+
     private Connection conn;
     private Statement ste;
     private PreparedStatement pst;
@@ -16,15 +17,17 @@ public class QuestionServices implements IService<Question> {
         conn = dbConnection.getInstance().getCnx();
     }
 
+
     @Override
     public boolean add(Question q) {
-        String req = "insert into question(contenu,reponse,bonne_rep,num_Que) values (?,?,?,?)";
+        String req = "insert into questions(contenu,rep1,rep2,rep3,bonneReponse) values (?,?,?,?,?)";
         try {
             pst = conn.prepareStatement(req);
             pst.setString(1, q.getContenu());
-            pst.setInt(2, q.getReponse().getId_rep());
-            pst.setString(3, q.isBonne_rep());
-            pst.setInt(4, q.getNumQue());
+            pst.setString(2, q.getReponse1());
+            pst.setString(3, q.getReponse2());
+            pst.setString(4, q.getReponse3());
+            pst.setString(5, q.getBonneReponse());
             int rows=pst.executeUpdate();
             if(rows>0){
                 return true;
@@ -38,8 +41,8 @@ public class QuestionServices implements IService<Question> {
 
     @Override
     public void delete(Question q) {
-        int id = q.getId_Que();
-        String req = "delete from question where id_Que='" + id + "'";
+        int id = q.getId_question();
+        String req = "delete from questions where id_question='" + id + "'";
         try {
             ste = conn.createStatement();
             int nbLigne = ste.executeUpdate(req);
@@ -53,41 +56,49 @@ public class QuestionServices implements IService<Question> {
 
     @Override
     public boolean update(Question q) {
-        int id = q.getId_Que();
+        int id = q.getId_question();
         String contenu = q.getContenu();
-        String bon = q.isBonne_rep();
-        int num = q.getNumQue();
-        String req = "UPDATE question SET contenu = ?, bonne_Rep = ?, num_Que = ? WHERE id_Que = ?";
+        String rep1 = q.getReponse1();
+        String rep2 = q.getReponse2();
+        String rep3 = q.getReponse3();
+        String bon = q.getBonneReponse();
+
+        String req = "UPDATE questions SET contenu = ?, rep1 = ?, rep2 = ?, rep3 = ?, bonneReponse = ? WHERE id_question = ?";
         try {
             pst = conn.prepareStatement(req);
             pst.setString(1, contenu);
-            pst.setString(2, bon);
-            pst.setInt(3, num);
-            pst.setInt(4, id);
+            pst.setString(2, rep1);
+            pst.setString(3, rep2);
+            pst.setString(4, rep3);
+            pst.setString(5, bon);
+            pst.setInt(6, id);
             int nbligne = pst.executeUpdate();
             if (nbligne == 0) {
                 System.out.println("Aucune modification effectuée pour cette requête");
+                return false;
+            }else{
+                return true;
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-        return false;
     }
 
     @Override
     public List<Question> readAll() {
-        String req = "SELECT q.id_Que, q.contenu, q.reponse, q.bonne_rep, q.num_Que, r.* FROM question q JOIN reponse r ON q.reponse = r.id_rep";
+        String req = "SELECT * FROM questions";
         List<Question> list = new ArrayList<>();
         try {
             ste = conn.createStatement();
             ResultSet rs = ste.executeQuery(req);
             while (rs.next()) {
-                int id_Que = rs.getInt("id_Que");
+                int id_Que = rs.getInt("id_question");
                 String contenu = rs.getString("contenu");
-                Reponse reponse = new Reponse(rs.getInt("id_rep"), rs.getString("reponse"));
-                String bonne_rep = rs.getString("bonne_rep");
-                int num_Que = rs.getInt("num_Que");
-                list.add(new Question(id_Que, contenu, reponse, bonne_rep, num_Que));
+                String rep1 = rs.getString("rep1");
+                String rep2 = rs.getString("rep2");
+                String rep3 = rs.getString("rep3");
+                String bonne_rep = rs.getString("bonneReponse");
+                list.add(new Question(id_Que, contenu, rep1,rep2,rep3,bonne_rep));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -97,17 +108,19 @@ public class QuestionServices implements IService<Question> {
 
     @Override
     public Question readById(int id) {
-        String req = "SELECT q.id_Que, q.contenu, q.reponse, q.bonne_rep, q.num_Que, r.* FROM question q JOIN reponse r ON q.reponse = r.id_rep WHERE q.id_Que = ?";
+        String req = "SELECT * FROM questions WHERE id_question = ?";
         Question question= null;
         try (PreparedStatement pst = conn.prepareStatement(req)) {
             pst.setInt(1, id);
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
+                    int id_Que = rs.getInt("id_question");
                     String contenu = rs.getString("contenu");
-                    Reponse reponse = new Reponse(rs.getInt("id_rep"), rs.getString("reponse"));
-                    String bonne_rep = rs.getString("bonne_rep");
-                    int num_Que = rs.getInt("num_Que");
-                    question = new Question(id, contenu, reponse, bonne_rep, num_Que);
+                    String rep1 = rs.getString("rep1");
+                    String rep2 = rs.getString("rep2");
+                    String rep3 = rs.getString("rep3");
+                    String bonne_rep = rs.getString("bonneReponse");
+                    question = new Question(id_Que, contenu, rep1,rep2,rep3,bonne_rep);
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -117,5 +130,4 @@ public class QuestionServices implements IService<Question> {
         }
         return question;
     }
-
 }

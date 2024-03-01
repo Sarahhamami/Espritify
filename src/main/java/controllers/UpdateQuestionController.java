@@ -1,7 +1,7 @@
 package Controllers;
 
-import Entities.Quizz;
-import Services.QuizzServices;
+import Entities.Question;
+import Services.QuestionServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,24 +14,34 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 
-public class UpdateQuizzController {
+public class UpdateQuestionController {
+
+    @FXML
+    private TextField bonRep;
 
     @FXML
     private Button cancelBtn;
 
     @FXML
-    private TextField description;
+    private TextField contenu;
 
     @FXML
-    private TextField sujet;
+    private TextField rep1;
+
+    @FXML
+    private TextField rep2;
+
+    @FXML
+    private TextField rep3;
+
     private int id;
 
     @FXML
     private Button updateButton;
 
-    private Popup popup;
+    QuestionServices qs = new QuestionServices();
 
-    QuizzServices qs= new QuizzServices();
+    private Popup popup;
 
     public void setPopup(Popup popup) {
         this.popup = popup;
@@ -42,19 +52,26 @@ public class UpdateQuizzController {
         popup.hide();
     }
 
-    public void setDescription(String description) {
-        this.description.setText(description);
+    public void setId(int id) {
+        this.id= id;
     }
-
-    public void setId(int id) { this.id=id; }
-
-    public void setSujet(String sujet) {
-        this.sujet.setText(sujet);
+    public void setContenu(String contenu) {
+        this.contenu.setText(contenu);
     }
+    public void setRep1(String rep1) {
+        this.rep1.setText(rep1);
+    }
+    public void setRep2(String rep2) {
+        this.rep2.setText(rep2);
+    }
+    public void setRep3(String rep3) {
+        this.rep3.setText(rep3);
+    }
+    public void setBonRep(String bonRep) {this.bonRep.setText(bonRep);}
 
     @FXML
-    void UpdateQuizz(ActionEvent event) throws IOException {
-        boolean updatedSuccessfully = qs.update(new Quizz(id, sujet.getText(), description.getText()));
+    void UpdateQuestion(ActionEvent event) throws IOException {
+        boolean updatedSuccessfully = qs.update(new Question(id, contenu.getText(), rep1.getText(), rep2.getText(), rep3.getText(), bonRep.getText()));
 
         Node node = (Node) event.getSource();
         Window ownerWindow = node.getScene().getWindow();
