@@ -1,14 +1,18 @@
 package org.example;
 
-import entities.User;
-import services.UserService;
+import entities.Utilisateur;
+import service.UtilisateurService;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.sql.SQLException;
+
 public class Main {
-    public static void main(String[] args) {
-        User u= new User("sarah");
-        UserService us= new UserService();
-        us.add(u);
+
+
+    public static void main(String[] args) throws SQLException {
+
+        Utilisateur u2=new Utilisateur(56,"ahmed","hmid");
+        Utilisateur u1=new Utilisateur("jawed","chlibi","jawed@","joujou",456987,"3a","etudiant");
+        UtilisateurService us=new UtilisateurService();
+        System.out.println(us.displayByid(56));
     }
 }
