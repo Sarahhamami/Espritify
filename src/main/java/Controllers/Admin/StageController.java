@@ -26,9 +26,18 @@ import java.util.ResourceBundle;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import services.DossierStageService;
 import services.OffreStageService;
+import services.UserService;
 
 public class StageController implements Initializable{
+    @FXML
+    private Label TotalStage;
+    @FXML
+    private Label totalEtudiant;
+
+    @FXML
+    private Label totalPostule;
     private static StageController instance;
     @FXML
     private TextField filterField;
@@ -79,8 +88,13 @@ public class StageController implements Initializable{
            refreshPage();
 
         }
-
+    private UserService userService=new UserService();
+    private DossierStageService dossierStageService=new DossierStageService();
     public void refreshPage() {
+        totalEtudiant.setText(String.valueOf(userService.getCountEtudiant()));
+        System.out.println(userService.getCountEtudiant());
+        totalPostule.setText(String.valueOf(dossierStageService.getCountDossier()));
+        TotalStage.setText(String.valueOf(os.getCountOffre()));
         List<OffreStage> o = os.readAll();
 
         pnItems.getChildren().clear(); // Clear existing items
@@ -153,8 +167,17 @@ public class StageController implements Initializable{
                 }
             }
             if (actionEvent.getSource() == btnOverview) {
-               // pnlOverview.setStyle("-fx-background-color : #02030A");
-              //  pnlOverview.toFront();
+                try {
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/OverView.fxml"));
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
+                    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             if(actionEvent.getSource()==btnStage)
             {

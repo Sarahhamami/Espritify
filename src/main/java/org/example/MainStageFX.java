@@ -16,7 +16,7 @@ public class MainStageFX extends Application {
     public void start(Stage stage) throws Exception {
 
 
-        Parent root = FXMLLoader.load(getClass().getResource("/Admin/Stage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Admin/OverView.fxml"));
         stage.setScene(new Scene(root));
         //set stage borderless
         stage.initStyle(StageStyle.UNDECORATED);

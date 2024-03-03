@@ -118,4 +118,35 @@ public class OffreStageService implements IService<OffreStage> {
         return offreStage;
 
     }
+
+    public int getCountType(String type) {
+        String requete = "SELECT COUNT(type) FROM offrestage WHERE type=?";
+        int count = 0;
+        try {
+            pst = conn.prepareStatement(requete);
+            pst.setString(1, type);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+    public int getCountOffre() {
+        String requete = "SELECT COUNT(*) AS count FROM offrestage ";
+        int count = 0; // Initialize count to 0
+        try (Statement ste = conn.createStatement();
+             ResultSet rs = ste.executeQuery(requete)) {
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+
+
 }

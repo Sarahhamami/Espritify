@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import services.DossierStageService;
 import services.EntretienService;
 import services.OffreStageService;
 import services.UserService;
@@ -34,6 +35,12 @@ public class EntretienController implements Initializable {
 
     @FXML
     private Label TotalStage;
+
+    @FXML
+    private Label totalEtudiant;
+
+    @FXML
+    private Label totalPostule;
 
     @FXML
     private Button btnDossierStage;
@@ -105,8 +112,17 @@ public class EntretienController implements Initializable {
             }
         }
         if (actionEvent.getSource() == btnOverview) {
-            // pnlOverview.setStyle("-fx-background-color : #02030A");
-            //  pnlOverview.toFront();
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/OverView.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if(actionEvent.getSource()==btnStage)
         {
@@ -147,7 +163,13 @@ public class EntretienController implements Initializable {
     }
 
     private EntretienService entretienService=new EntretienService();
+    private DossierStageService dossierStageService=new DossierStageService();
+    private OffreStageService offreStageService=new OffreStageService();
+    private UserService userService=new UserService();
     public void refreshPage() {
+        totalEtudiant.setText(String.valueOf(userService.getCountEtudiant()));
+        totalPostule.setText(String.valueOf(dossierStageService.getCountDossier()));
+        TotalStage.setText(String.valueOf(offreStageService.getCountOffre()));
         List<Entretien> entretiens = entretienService.readAll();
 
         pnItems.getChildren().clear(); // Clear existing items
