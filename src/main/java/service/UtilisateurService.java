@@ -1,6 +1,8 @@
 package service;
 
 import entities.PasswordResetToken;
+import entities.ROLE;
+import entities.User;
 import entities.Utilisateur;
 import org.mindrot.jbcrypt.BCrypt;
 import utils.DataSources;
@@ -310,6 +312,27 @@ public class UtilisateurService implements Iservice<Utilisateur> {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public List<User> readAll() {
+        String requete = "SELECT * FROM utilisateur";
+        List<User> lst = new ArrayList<>();
+        try {
+            ste = conn.createStatement();
+            ResultSet rs = ste.executeQuery(requete);
+            User user=null;
+            while (rs.next()){
+                String enumString = rs.getString("role");
+                ROLE role = ROLE.valueOf(enumString);
+                user=new User(rs.getInt(1), rs.getString(2),
+                        rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8),
+                        rs.getInt(9), rs.getString(10), rs.getString(11), role);
+                lst.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lst;
     }
 
 }
