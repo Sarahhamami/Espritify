@@ -3,7 +3,10 @@
 {
     -fx-background-color : #990000;
     -fx-text-fill :#A6A6A6;
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 }
 .button:hover{
     -fx-background-color : #ffffff;
@@ -71,6 +74,7 @@
 .sign-up-button-add:hover {
     -fx-background-color: #0056b3;
 }
+<<<<<<< Updated upstream
 * {
     -fx-darkest-grey-color: #323232;
 }
@@ -201,3 +205,5 @@
 .date-picker-popup .spinner .button .right-arrow {
     -fx-background-color: white;
 }
+=======
+>>>>>>> Stashed changes

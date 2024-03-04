@@ -1,5 +1,6 @@
 package services;
 
+<<<<<<< Updated upstream
 import entities.OffreStage;
 import entities.ROLE;
 import entities.TypeStage;
@@ -11,11 +12,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+=======
+import entities.Club;
+import entities.User;
+import utils.DataSources;
+
+import java.sql.*;
+>>>>>>> Stashed changes
 import java.util.List;
 
 public class UserService implements IService<User> {
     private Connection conn;
     private Statement ste;
+    private PreparedStatement pst;
     public UserService() {
         conn= DataSources.getInstance().getCnx();
 
@@ -65,8 +74,10 @@ public class UserService implements IService<User> {
         return lst;
     }
 
+
     @Override
     public User readById(int id) {
+<<<<<<< Updated upstream
         String requete="SELECT * FROM `utilisateur` where id='"+id+"'";
         User user=null;
         try {
@@ -97,6 +108,27 @@ public class UserService implements IService<User> {
             throw new RuntimeException(e);
         }
         return count;
+=======
+        User user = null;
+
+        String requete= "select id from User where  id = ?";
+        try {
+            pst = conn.prepareStatement(requete);
+            pst.setInt(1,id);
+            ResultSet rs =  pst.executeQuery();
+
+            while (rs.next()){
+                new User(
+                        rs.getInt("id"),
+                        rs.getString("nom")
+
+                );            }
+//pst.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return user;
+>>>>>>> Stashed changes
     }
 
 }

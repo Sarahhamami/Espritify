@@ -25,10 +25,16 @@ public class User {
         this.nom = nom;
     }
 
+    public User(int id, String nom) {
+        this.id=id;
+        this.nom=nom;
+    }
+
     public String getNom() {
         return nom;
     }
 
+<<<<<<< Updated upstream
     public int getId() {
 
         return id;
@@ -65,5 +71,12 @@ public class User {
                 ", role=" + role +
                 ", nom_soc='" + nom_soc + '\'' +
                 '}';
+=======
+    public int getId(){return id;}
+
+
+    public void setId(int id) {
+        this.id = id;
+>>>>>>> Stashed changes
     }
 }

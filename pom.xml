@@ -44,6 +44,7 @@
             <artifactId>maven-shade-plugin</artifactId>
             <version>3.4.1</version>
         </dependency>
+<<<<<<< Updated upstream
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
@@ -54,6 +55,44 @@
             <artifactId>sphinx4-core</artifactId>
             <version>5prealpha</version>
         </dependency>
+=======
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version> <!-- Version la plus récente au moment de la réponse -->
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version> <!-- Version la plus récente au moment de la réponse -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>17</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.4.1</version> <!-- Mettez à jour la version selon vos besoins -->
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+
+
+>>>>>>> Stashed changes
     </dependencies>
     <build>
         <plugins>
