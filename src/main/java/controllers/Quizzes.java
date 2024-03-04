@@ -10,13 +10,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import Services.QuizzServices;
-import javafx.scene.control.Alert;
 import javafx.event.ActionEvent;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.List;
 
 public class Quizzes {
@@ -36,14 +36,9 @@ public class Quizzes {
     @FXML
     private Button reponse3;
 
-    @FXML
-    private Button btnretour;
-
-    @FXML
-    private Button btnsuivant;
-
     private List<Quizz> quizzList;
     private int currentIndex;
+    private int score = 0;
 
     private QuizzServices qs = new QuizzServices();
 
@@ -59,8 +54,6 @@ public class Quizzes {
             reponse1.setText("");
             reponse2.setText("");
             reponse3.setText("");
-            btnretour.setVisible(false);
-            btnsuivant.setVisible(false);
             return;
         }
 
@@ -100,8 +93,6 @@ public class Quizzes {
                 }
             }
         }
-        btnretour.setVisible(currentIndex > 0);
-        btnsuivant.setVisible(currentIndex < quizzList.size() - 1);
     }
 
     @FXML
@@ -114,27 +105,18 @@ public class Quizzes {
 
         boolean isCorrect = selectedResponse.equals(correctResponse);
 
-        Node node = (Node) event.getSource();
-        Window ownerWindow = node.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert.fxml"));
-        AnchorPane popupContent = loader.load();
-        Popup popup = new Popup();
-        popup.getContent().add(popupContent);
-        Controllers.Alert controller = loader.getController();
-        if (isCorrect) {
-            controller.setCustomMsg("Félicitations, les réponses sont correctes.");
-            controller.setCustomTitle("Réponses correctes!");
-            controller.setImageView("/images/approuve.png");
-            controller.setClosePopupStyle("button-success");
-        } else {
-            controller.setCustomMsg("Désolé, les réponses ne sont pas correctes. Veuillez réessayer");
-            controller.setCustomTitle("Réponses incorrectes!");
-            controller.setImageView("/images/rejete.png");
-            controller.setClosePopupStyle("button-failed");
+        if(isCorrect){
+            score++;
         }
-        controller.setPopup(popup);
-        popup.show(ownerWindow);
+
+        currentIndex++;
+        if (currentIndex < quizzList.size()) {
+            updateUI();
+        } else {
+            showFinalResult();
+        }
     }
+
 
     public void onResponseClicked(ActionEvent event) throws IOException {
         Button clickedButton = (Button) event.getSource();
@@ -142,18 +124,33 @@ public class Quizzes {
         verifyResponses(event);
     }
 
-    @FXML
-    void retour() {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateUI();
-        }
-    }
-    @FXML
-    void suivant() {
-        if (currentIndex < quizzList.size() - 1) {
-            currentIndex++;
-            updateUI();
+    private void showFinalResult() {
+        double percentageScore = ((double) score / quizzList.size()) * 100;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Alert.fxml"));
+            AnchorPane popupContent = loader.load();
+            Popup popup = new Popup();
+            popup.getContent().add(popupContent);
+            Alert controller = loader.getController();
+
+            if (percentageScore > 50) {
+                controller.setCustomMsg("Félicitations! Vous avez répondu correctement à "+score+" questions sur "+quizzList.size()+".\n Votre score est de "+percentageScore+". ");
+                controller.setCustomTitle("Vous êtes approuvé!");
+                controller.setImageView("/images/approuve.png");
+                controller.setClosePopupStyle("button-success");
+            } else {
+                controller.setCustomMsg("Désolé! Vous avez répondu correctement à "+score+" questions sur "+quizzList.size()+".\n Votre score est de "+percentageScore+".");
+                controller.setCustomTitle("Vous n'êtes pas approuvé.");
+                controller.setImageView("/images/rejete.png");
+                controller.setClosePopupStyle("button-failed");
+            }
+
+            Node node = MainPane;
+            Window ownerWindow = node.getScene().getWindow();
+            popup.show(ownerWindow);
+            controller.setPopup(popup);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
