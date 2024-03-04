@@ -120,10 +120,6 @@ public class AddDossierController implements Initializable {
             return;
         }
 
-
-
-
-
         boolean addedSuccessfully = dossierStageService.add(new Dossier_stage(id_user, cvPathInProj, conventionPathInProj, copie_cinPathInProj,  id_offre));
         Node node = (Node) actionEvent.getSource();
         Window ownerWindow = node.getScene().getWindow();
@@ -160,7 +156,7 @@ public class AddDossierController implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(stage); // Use the stage passed from the main application
         if (selectedFile != null) {
             // Get the target resource directory path
-            String resourcePath = "src/main/resources/images/"; // Modify this according to your project structure
+            String resourcePath = "C:/xampp/htdocs/"; // Modify this according to your project structure
             File resourceDirectory = new File(resourcePath);
 
             // Ensure the resource directory exists, create if necessary

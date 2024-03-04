@@ -1,6 +1,8 @@
 package Controllers.Admin;
 
 import Controllers.AfficherOffreStageController;
+import Controllers.AfficherQuestionController;
+import Controllers.AfficherQuizzController;
 import entities.OffreStage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,9 +28,18 @@ import java.util.ResourceBundle;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import services.DossierStageService;
 import services.OffreStageService;
+import services.UserService;
 
 public class StageController implements Initializable{
+    @FXML
+    private Label TotalStage;
+    @FXML
+    private Label totalEtudiant;
+
+    @FXML
+    private Label totalPostule;
     private static StageController instance;
     @FXML
     private TextField filterField;
@@ -48,8 +59,14 @@ public class StageController implements Initializable{
 
         @FXML
         private Button btnEntretien;
+    @FXML
+    private Button btnQuizz;
 
-        @FXML
+    @FXML
+    private Button btnQuestion;
+
+
+    @FXML
         private Button btnSettings;
 
         @FXML
@@ -66,6 +83,145 @@ public class StageController implements Initializable{
 
         @FXML
         private Pane pnlMenus;
+
+    @FXML
+    private Button btnRec;
+    @FXML
+    private Button btnRepRec;
+    @FXML
+    private Button btnMessg;
+
+    @FXML
+    public void handleClicks(ActionEvent actionEvent) {
+
+        // this will be transformed based on the work of each button
+        if (actionEvent.getSource() == btnDossierStage) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/DossierStage.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (actionEvent.getSource() == btnRec) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/Reclamation.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (actionEvent.getSource() == btnRepRec) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/ReponseReclamation.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (actionEvent.getSource() == btnMessg) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/Messagerie.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (actionEvent.getSource() == btnQuizz) {
+
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/AfficherQuizz.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (actionEvent.getSource() == btnQuestion) {
+
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/AfficherQuestion.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (actionEvent.getSource() == btnEntretien) {
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/Entretien.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (actionEvent.getSource() == btnOverview) {
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/OverView.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(actionEvent.getSource()==btnStage)
+        {
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/Stage.fxml"));
+                Parent root = loader.load();
+
+                Scene scene = new Scene(root);
+
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception appropriately
+            }
+        }
+    }
         private final OffreStageService os = new OffreStageService();
     public static StageController getInstance() {
         if (instance == null) {
@@ -79,8 +235,13 @@ public class StageController implements Initializable{
            refreshPage();
 
         }
-
+    private UserService userService=new UserService();
+    private DossierStageService dossierStageService=new DossierStageService();
     public void refreshPage() {
+        totalEtudiant.setText(String.valueOf(userService.getCountEtudiant()));
+        System.out.println(userService.getCountEtudiant());
+        totalPostule.setText(String.valueOf(dossierStageService.getCountDossier()));
+        TotalStage.setText(String.valueOf(os.getCountOffre()));
         List<OffreStage> o = os.readAll();
 
         pnItems.getChildren().clear(); // Clear existing items
@@ -121,60 +282,6 @@ public class StageController implements Initializable{
             search(); // Call search method whenever text changes in the filterField
         });
     }
-        @FXML
-        public void handleClicks(ActionEvent actionEvent) {
-            // this will be transformed based on the work of each button
-            if (actionEvent.getSource() == btnDossierStage) {
-
-                try {
-
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/DossierStage.fxml"));
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root);
-                    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            if (actionEvent.getSource() == btnEntretien) {
-                try {
-
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/Entretien.fxml"));
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root);
-                    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (actionEvent.getSource() == btnOverview) {
-               // pnlOverview.setStyle("-fx-background-color : #02030A");
-              //  pnlOverview.toFront();
-            }
-            if(actionEvent.getSource()==btnStage)
-            {
-                try {
-
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/Stage.fxml"));
-                    Parent root = loader.load();
-
-                    Scene scene = new Scene(root);
-
-                    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    // Handle the exception appropriately
-                }
-            }
-        }
     @FXML
     void search() {
         List<OffreStage> listM = os.readAll();
@@ -248,6 +355,41 @@ public class StageController implements Initializable{
     }
 
 
+    public void gogestmsg(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/Messagerie.fxml"));
+        Parent root =loader.load();
+        GestionMessagerie ars=loader.getController();
+        btnDossierStage.getScene().setRoot(root);
+
+    }
+
+    public void Goreprec(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/ReponseReclamation.fxml"));
+        Parent root =loader.load();
+        ReponseReclamationController ars=loader.getController();
+        btnDossierStage.getScene().setRoot(root);
+    }
+
+    public void goRec(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/Reclamation.fxml"));
+        Parent root =loader.load();
+        ReclamationController ars=loader.getController();
+        btnDossierStage.getScene().setRoot(root);
+    }
+
+    public void gotoQuizz(ActionEvent event) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/AfficherQuizz.fxml"));
+        Parent root =loader.load();
+        AfficherQuizzController ars=loader.getController();
+        btnDossierStage.getScene().setRoot(root);
+    }
+
+    public void gotoQuestion(ActionEvent event) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/AfficherQuestion.fxml"));
+        Parent root =loader.load();
+        AfficherQuestionController ars=loader.getController();
+        btnDossierStage.getScene().setRoot(root);
+    }
 }
 
 
