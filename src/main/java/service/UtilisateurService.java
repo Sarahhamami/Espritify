@@ -25,7 +25,7 @@ public class UtilisateurService implements Iservice<Utilisateur> {
     @Override
     public void add(Utilisateur utilisateur) {
         String hashedPassword = BCrypt.hashpw(utilisateur.getMdp(), BCrypt.gensalt());
-        String requete = "insert into utilisateur (nom,prenom,email,mdp,tel,niveau,role) values ('" + utilisateur.getNom() + "','" + utilisateur.getPrenom() + "','" + utilisateur.getEmail() + "','" + hashedPassword + "'," + utilisateur.getTel() + ",'" + utilisateur.getNiveau() + "','" + utilisateur.getRole() + "')";
+        String requete = "INSERT INTO utilisateur (nom, prenom, email, mdp, tel, niveau, role, image) VALUES ('" + utilisateur.getNom() + "', '" + utilisateur.getPrenom() + "', '" + utilisateur.getEmail() + "', '" + hashedPassword + "', '" + utilisateur.getTel() + "', '" + utilisateur.getNiveau() + "', '" + utilisateur.getRole() + "', '" + utilisateur.getImage() + "')";
 
 
         try {

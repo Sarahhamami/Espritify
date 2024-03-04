@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import services.DossierStageService;
 import services.EntretienService;
 import services.OffreStageService;
 import services.UserService;
@@ -34,6 +35,12 @@ public class EntretienController implements Initializable {
 
     @FXML
     private Label TotalStage;
+
+    @FXML
+    private Label totalEtudiant;
+
+    @FXML
+    private Label totalPostule;
 
     @FXML
     private Button btnDossierStage;
@@ -73,14 +80,98 @@ public class EntretienController implements Initializable {
 
     @FXML
     private Pane pnlOverview;
+
+    @FXML
+    private Button btnQuestion;
+    @FXML
+    private Button btnQuizz;
+    @FXML
+    private Button btnRec;
+    @FXML
+    private Button btnRepRec;
+    @FXML
+    private Button btnMessg;
+    @FXML
+    private Button btnCours;
+    @FXML
+    private Button btnCategorie;
+
     @FXML
     public void handleClicks(ActionEvent actionEvent) {
+
         // this will be transformed based on the work of each button
         if (actionEvent.getSource() == btnDossierStage) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/DossierStage.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (actionEvent.getSource() == btnRec) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/Reclamation.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (actionEvent.getSource() == btnRepRec) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/ReponseReclamation.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (actionEvent.getSource() == btnMessg) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/Messagerie.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (actionEvent.getSource() == btnQuizz) {
 
             try {
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/DossierStage.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/AfficherQuizz.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (actionEvent.getSource() == btnQuestion) {
+
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/AfficherQuestion.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -105,8 +196,17 @@ public class EntretienController implements Initializable {
             }
         }
         if (actionEvent.getSource() == btnOverview) {
-            // pnlOverview.setStyle("-fx-background-color : #02030A");
-            //  pnlOverview.toFront();
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/OverView.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if(actionEvent.getSource()==btnStage)
         {
@@ -126,7 +226,44 @@ public class EntretienController implements Initializable {
                 // Handle the exception appropriately
             }
         }
+        if(actionEvent.getSource()==btnCours)
+        {
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/AfficherCours.fxml"));
+                Parent root = loader.load();
+
+                Scene scene = new Scene(root);
+
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception appropriately
+            }
+        }
+        if(actionEvent.getSource()==btnCategorie)
+        {
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/AfficherCategorie.fxml"));
+                Parent root = loader.load();
+
+                Scene scene = new Scene(root);
+
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception appropriately
+            }
+        }
     }
+
 
     public void ajouterEntretien(ActionEvent actionEvent) {
         try {
@@ -147,7 +284,13 @@ public class EntretienController implements Initializable {
     }
 
     private EntretienService entretienService=new EntretienService();
+    private DossierStageService dossierStageService=new DossierStageService();
+    private OffreStageService offreStageService=new OffreStageService();
+    private UserService userService=new UserService();
     public void refreshPage() {
+        totalEtudiant.setText(String.valueOf(userService.getCountEtudiant()));
+        totalPostule.setText(String.valueOf(dossierStageService.getCountDossier()));
+        TotalStage.setText(String.valueOf(offreStageService.getCountOffre()));
         List<Entretien> entretiens = entretienService.readAll();
 
         pnItems.getChildren().clear(); // Clear existing items
@@ -246,6 +389,27 @@ public class EntretienController implements Initializable {
         }
     }
 
+    public void gorec(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/Reclamation.fxml"));
+        Parent root =loader.load();
+        ReclamationController ars=loader.getController();
+        btnDossierStage.getScene().setRoot(root);
+    }
+
+    public void goreprec(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/ReponseReclamation.fxml"));
+        Parent root =loader.load();
+        ReponseReclamationController ars=loader.getController();
+        totalEtudiant.getScene().setRoot(root);
+    }
+
+    public void gomsg(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/Messagerie.fxml"));
+        Parent root =loader.load();
+        GestionMessagerie ars=loader.getController();
+        totalEtudiant.getScene().setRoot(root);
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         refreshPage();

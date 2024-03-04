@@ -86,8 +86,8 @@ public class DossierStageService implements IService<Dossier_stage> {
             ste = conn.createStatement();
             ResultSet rs = ste.executeQuery(requete);
             while (rs.next()) {
-                lst.add(new Dossier_stage(rs.getInt(5), rs.getString(1),
-                        rs.getString(2), rs.getString(3), rs.getInt(4)));
+                lst.add(new Dossier_stage(rs.getString("cv"), rs.getString("convention"),
+                        rs.getString("copie_cin"), rs.getInt("id_offre"), rs.getInt("id_user")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -100,4 +100,43 @@ public class DossierStageService implements IService<Dossier_stage> {
 
         return null;
     }
+
+    //@Override
+    public List<Dossier_stage> readAllByID(int id) {
+        return null;
+    }
+
+    public int getCountDossier() {
+        String requete = "SELECT COUNT(*) AS count FROM dossier_stage ";
+        int count = 0; // Initialize count to 0
+        try (Statement ste = conn.createStatement();
+             ResultSet rs = ste.executeQuery(requete)) {
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+    public boolean didParticipate(int id_user, int id_offre) {
+        String requete = "SELECT * FROM dossier_stage WHERE id_user = ? AND id_offre = ?";
+        boolean participated = false; // Initialize with false
+
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(requete);
+            preparedStatement.setInt(1, id_user);
+            preparedStatement.setInt(2, id_offre);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                participated = true;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return participated;
+    }
+
 }

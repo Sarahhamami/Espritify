@@ -175,4 +175,14 @@ private String mdp;
     public Utilisateur(String role) {
         this.role = role;
     }
+
+    public Utilisateur(String nom, String prenom, String email, String image, String role, int tel, String mdp) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.image = image;
+        this.role = role;
+        this.tel = tel;
+        this.mdp = mdp;
+    }
 }

@@ -5,15 +5,22 @@ import helper.AlertHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 import service.UtilisateurService;
-import javafx.scene.control.PasswordField;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.regex.Pattern;
 
 public class AjouterUserController {
@@ -70,15 +77,15 @@ if (us.exsitemail(emailTF.getText())){
         }
 else {
     if (rs.isSelected()) {
-        us.add(new Utilisateur(nomTF.getText(), prenomTF.getText(), emailTF.getText(), mdpTF.getText(), Integer.parseInt(telTF.getText()), niveauTF.getText(), "responsable_societe"));
+        us.add(new Utilisateur(nomTF.getText(), prenomTF.getText(), emailTF.getText(), imagePath, "responsable_societe" , Integer.parseInt(telTF.getText()), mdpTF.getText() ));
     }
 
     if (ensi.isSelected()) {
-        us.add(new Utilisateur(nomTF.getText(), prenomTF.getText(), emailTF.getText(), mdpTF.getText(), Integer.parseInt(telTF.getText()), niveauTF.getText(), "admin"));
+        us.add(new Utilisateur(nomTF.getText(), prenomTF.getText(), emailTF.getText(), imagePath, "admin" , Integer.parseInt(telTF.getText()), mdpTF.getText()));
     }
 
     if (etu.isSelected()) {
-        us.add(new Utilisateur(nomTF.getText(), prenomTF.getText(), emailTF.getText(), mdpTF.getText(), Integer.parseInt(telTF.getText()), niveauTF.getText(), "etudiant"));
+        us.add(new Utilisateur(nomTF.getText(), prenomTF.getText(), emailTF.getText(), imagePath, "etudiant" , Integer.parseInt(telTF.getText()), mdpTF.getText()));
     }
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/acueil.fxml"));
     Parent root = loader.load();
@@ -106,6 +113,62 @@ else {
         }
         return true;
     }
+    @FXML
+    private Button imageButton;
+    private Stage stage;
+    private String imagePath;
+    @FXML
+    private TextField imagePathTextField;
+    public void uploadImage(ActionEvent actionEvent) {
 
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Image File");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+
+            File selectedFile = fileChooser.showOpenDialog(stage); // Use the stage passed from the main application
+            if (selectedFile != null) {
+                // Get the target resource directory path
+                String resourcePath = "C:/xampp/htdocs/"; // Modify this according to your project structure
+                File resourceDirectory = new File(resourcePath);
+
+                // Ensure the resource directory exists, create if necessary
+                if (!resourceDirectory.exists()) {
+                    resourceDirectory.mkdirs();
+                }
+                if (actionEvent.getSource()==imageButton) {
+                    imagePath = resourcePath + selectedFile.getName();
+                    File destinationFile = new File(imagePath);
+
+                    try {
+                        // Copy the selected file to the resource directory
+                        Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        System.out.println("Image uploaded to: " + imagePath);
+                        imagePathTextField.setText(selectedFile.getName());
+
+                        // Optionally, load and display the image
+                        Image image = new Image(destinationFile.toURI().toString());
+                        ImageView imageView = new ImageView(image);
+                        // You can add this imageView to your layout for display
+                        displayImage(image);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }}
+
+
+        }
+    private void displayImage(Image image) {
+        // Create an ImageView to display the image
+        ImageView imageView = new ImageView(image);
+
+        // Create a new stage to display the image
+        Stage imageStage = new Stage();
+        imageStage.setTitle("Selected Image");
+        imageStage.setScene(new Scene(new Group(imageView), image.getWidth(), image.getHeight()));
+        imageStage.show();
+    }
 
 }

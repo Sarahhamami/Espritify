@@ -6,7 +6,9 @@ import utils.DataSources;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EntretienService implements IService<Entretien>{
 
@@ -111,4 +113,92 @@ public class EntretienService implements IService<Entretien>{
         return null;
     }
 
+    //@Override
+    public List<Entretien> readAllByID(int id) {
+        return null;
+    }
+
+    public int getCountByMonth(int year, int month) {
+        String requete = "SELECT COUNT(*) FROM entretien WHERE YEAR(date) = ? AND MONTH(date) = ?";
+        int count = 0;
+        try {
+            pst = conn.prepareStatement(requete);
+            pst.setInt(1, year);
+            pst.setInt(2, month);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+    public Map<String, Map<String, Integer>> getDataByLocationAndDate() {
+        Map<String, Map<String, Integer>> data = new HashMap<>();
+
+        String query = "SELECT lieu, date, COUNT(*) AS stage_count FROM entretien GROUP BY lieu, date";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String location = rs.getString("lieu");
+                String date = rs.getString("date");
+                int stageCount = rs.getInt("stage_count");
+
+                // Add location to the map if not present
+                data.putIfAbsent(location, new HashMap<>());
+
+                // Get the inner map for the location
+                Map<String, Integer> locationData = data.get(location);
+
+                // Add stage count for the date
+                locationData.put(date, stageCount);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as needed
+        }
+
+        return data;
+    }
+
+    public Map<String, Integer> getCountByEtat() {
+        Map<String, Integer> etatCountMap = new HashMap<>();
+        try (
+                // Establish a connection to the database
+                PreparedStatement pst = conn.prepareStatement("SELECT etat, COUNT(*) AS count FROM entretien GROUP BY etat");
+                // Execute the query and get the result set
+                ResultSet rs = pst.executeQuery();
+        ) {
+            // Iterate over the result set
+            while (rs.next()) {
+                // Retrieve state (etat) and count from the result set
+                String etat = rs.getString("etat");
+                int count = rs.getInt("count");
+                // Add state and count to the map
+                etatCountMap.put(etat, count);
+            }
+        } catch (SQLException e) {
+            // Handle SQL exceptions
+            throw new RuntimeException(e);
+        }
+        return etatCountMap;
+    }
+
+    public List<Entretien> getById(int id_user){
+        String requete = "SELECT * FROM `entretien` where id_user='"+id_user+"'";
+        List<Entretien> lst = new ArrayList<>();
+        try {
+
+            ste = conn.createStatement();
+
+            ResultSet rs = ste.executeQuery(requete);
+            while (rs.next()) {
+                lst.add(new Entretien(rs.getInt(1), rs.getInt(2),
+                        rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getBoolean(7)));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lst;
+    }
 }

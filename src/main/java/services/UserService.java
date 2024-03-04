@@ -84,4 +84,19 @@ public class UserService implements IService<User> {
         }
         return user;
     }
+
+    public int getCountEtudiant() {
+        String requete = "SELECT COUNT(*) AS count FROM utilisateur WHERE role = 'etudiant'";
+        int count = 0; // Initialize count to 0
+        try (Statement ste = conn.createStatement();
+             ResultSet rs = ste.executeQuery(requete)) {
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+
 }
