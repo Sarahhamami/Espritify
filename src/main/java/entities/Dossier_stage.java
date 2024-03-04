@@ -22,6 +22,15 @@ public class Dossier_stage {
         this.id_offre = id_offre;
     }
 
+    public Dossier_stage(String cv, String convention, String copieCin, int idOffre, int id_user) {
+        this.cv = cv;
+        this.convention = convention;
+        this.copie_cin = copieCin;
+        this.id_offre = idOffre;
+        this.id_user=id_user;
+
+    }
+
     public int getId() {
         return id_user;
     }

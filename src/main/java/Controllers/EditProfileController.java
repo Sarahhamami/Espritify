@@ -46,7 +46,7 @@ public class EditProfileController implements Initializable {
 
     @FXML
     private void handleImageUpload(ActionEvent event) throws IOException {
-        File dest = new File("C:\\Users\\hamdo\\IdeaProjects\\base\\src\\main\\avatar");
+        File dest = new File("C:\\xampp\\htdocs");
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
         selectedImageFile = fileChooser.showOpenDialog(null);
@@ -65,7 +65,7 @@ public class EditProfileController implements Initializable {
         teltxt.setText(Integer.toString(user.getTel()));
         emailtxt.setText(user.getEmail());
 
-        File imageFile = new File("C:\\Users\\hamdo\\IdeaProjects\\base\\src\\main\\avatar\\" + user.getImage());
+        File imageFile = new File("C:\\xampp\\htdocs" + user.getImage());
         Image image = new Image(imageFile.toURI().toString());
         ImagePreview.setImage(image);
     }
@@ -93,14 +93,14 @@ public class EditProfileController implements Initializable {
         updatedUser.setNom(nomtxt.getText());
         updatedUser.setPrenom(prenomtxt.getText());
         updatedUser.setTel(Integer.parseInt(teltxt.getText()));
-        String cleanurl = ImagePreview.getImage().getUrl().substring("file:/C:/Users/hamdo/IdeaProjects/base/src/main/avatar/".length());
+        String cleanurl = ImagePreview.getImage().getUrl().substring("C:\\xampp\\htdocs".length());
         System.out.println("preview "+cleanurl);
         System.out.println("preview2 "+ImagePreview.getImage().getUrl());
 
         updatedUser.setImage(cleanurl);
 
         if (selectedImageFile != null) {
-            File dest = new File("C:\\Users\\hamdo\\IdeaProjects\\base\\src\\main\\avatar");
+            File dest = new File("C:\\xampp\\htdocs");
             FileUtils.copyFileToDirectory(selectedImageFile, dest);
             updatedUser.setImage(selectedImageFile.getName());
         }

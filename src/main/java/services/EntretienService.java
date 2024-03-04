@@ -113,6 +113,11 @@ public class EntretienService implements IService<Entretien>{
         return null;
     }
 
+    @Override
+    public List<Entretien> readAllByID(int id) {
+        return null;
+    }
+
     public int getCountByMonth(int year, int month) {
         String requete = "SELECT COUNT(*) FROM entretien WHERE YEAR(date) = ? AND MONTH(date) = ?";
         int count = 0;

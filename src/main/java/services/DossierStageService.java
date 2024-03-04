@@ -86,8 +86,8 @@ public class DossierStageService implements IService<Dossier_stage> {
             ste = conn.createStatement();
             ResultSet rs = ste.executeQuery(requete);
             while (rs.next()) {
-                lst.add(new Dossier_stage(rs.getInt(5), rs.getString(1),
-                        rs.getString(2), rs.getString(3), rs.getInt(4)));
+                lst.add(new Dossier_stage(rs.getString("cv"), rs.getString("convention"),
+                        rs.getString("copie_cin"), rs.getInt("id_offre"), rs.getInt("id_user")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -98,6 +98,11 @@ public class DossierStageService implements IService<Dossier_stage> {
     @Override
     public Dossier_stage readById(int id) {
 
+        return null;
+    }
+
+    @Override
+    public List<Dossier_stage> readAllByID(int id) {
         return null;
     }
 

@@ -297,4 +297,26 @@ public class OverViewController implements Initializable {
             bar.setStyle("-fx-bar-fill: " + css + ";");
         }
     }
+
+    public void gogestmsg(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/Messagerie.fxml"));
+        Parent root =loader.load();
+        GestionMessagerie ars=loader.getController();
+        totalEtudiant.getScene().setRoot(root);
+
+    }
+
+    public void Goreprec(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/ReponseReclamation.fxml"));
+        Parent root =loader.load();
+        ReponseReclamationController ars=loader.getController();
+        totalEtudiant.getScene().setRoot(root);
+    }
+
+    public void goRec(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/Reclamation.fxml"));
+        Parent root =loader.load();
+        ReclamationController ars=loader.getController();
+        btnDossierStage.getScene().setRoot(root);
+    }
 }

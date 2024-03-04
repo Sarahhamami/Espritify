@@ -91,6 +91,20 @@ public class EntretienController implements Initializable {
                 e.printStackTrace();
             }
 
+        }    if (actionEvent.getSource() == btnDossierStage) {
+
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/DiscussionInterne.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 private EntretienService entretienService= new EntretienService();

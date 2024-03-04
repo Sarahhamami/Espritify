@@ -1,6 +1,8 @@
 package Controllers;
 
+import Controllers.Admin.OverViewController;
 import Controllers.Enseignant.AccueilController;
+import Controllers.Etudiant.Accueil;
 import entities.UserSession;
 import helper.AlertHelper;
 import javafx.event.ActionEvent;
@@ -66,9 +68,9 @@ public class AccuielController implements Initializable {
 
 
     void goToHome() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Etudiant/Accueil.fxml"));
         Parent root=loader.load();
-        HomeController auc=loader.getController();
+       Accueil a =loader.getController();
         rest.getScene().setRoot(root);
     }
     void goToResponsable() throws IOException {
@@ -82,6 +84,14 @@ public class AccuielController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Enseignant/Accueil.fxml"));
         Parent root=loader.load();
         AccueilController auc=loader.getController();
+
+        rest.getScene().setRoot(root);
+
+    }
+    void goAdmin() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/OverView.fxml"));
+        Parent root=loader.load();
+        OverViewController auc=loader.getController();
 
         rest.getScene().setRoot(root);
 
@@ -101,7 +111,12 @@ public class AccuielController implements Initializable {
 //                auc.setAfficherTF(" bienvnu etudiant");
 //                btn.getScene().setRoot(root);
                 goToHome();
-             }
+             }else if (us.role(us.authenticate(mail.getText(), password.getText())).equals("admin")) {
+//                auc.setAfficherTF(" bienvnu etudiant");
+//                btn.getScene().setRoot(root);
+                  goAdmin();
+            }
+
             else if (us.role(us.authenticate(mail.getText(), password.getText())).equals("responsable_societe")) {
                //auc.setAfficherTF(" bienvnu responsable societe");
               //btn.getScene().setRoot(root);

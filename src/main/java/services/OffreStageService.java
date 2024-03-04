@@ -119,6 +119,11 @@ public class OffreStageService implements IService<OffreStage> {
 
     }
 
+    @Override
+    public List<OffreStage> readAllByID(int id) {
+        return null;
+    }
+
     public int getCountType(String type) {
         String requete = "SELECT COUNT(type) FROM offrestage WHERE type=?";
         int count = 0;

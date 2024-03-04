@@ -169,7 +169,6 @@ public class DossierStage implements Initializable {
         totalPostule.setText(String.valueOf(ds.getCountDossier()));
         TotalStage.setText(String.valueOf(offreStageService.getCountOffre()));
         List<Dossier_stage> o = ds.readAll();
-
         pnItems.getChildren().clear(); // Clear existing items
         OffreStageService os= new OffreStageService();
         UserService us= new UserService();
@@ -185,15 +184,13 @@ public class DossierStage implements Initializable {
                 itemController.setUrlCv(dossierStage.getCv());
                 itemController.setUrlConvention(dossierStage.getConvention());
                 // Set data for the UI components
-                OffreStage offreStage= null;
+                OffreStage offreStage;
                 offreStage= os.readById(dossierStage.getId_offre());
                 User user= null;
                 user= us.readById(dossierStage.getId());
-
                  //((Button) node.lookup("#cv"));
                 //((Label) node.lookup("#convention")).setText(dossierStage.getConvention());
                 //((Label) node.lookup("#copie_cin")).setText(dossierStage.getCopie_cin());
-
                 ((Label) node.lookup("#offre")).setText(offreStage.getTitre());
                 ((Label) node.lookup("#user")).setText(user.getNom());
                 itemController.setOffre_stage(offreStage.getTitre());
@@ -284,6 +281,27 @@ public class DossierStage implements Initializable {
                 pnItems.getChildren().add(node);
             }
         }
+    }
+    public void gorec(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/Reclamation.fxml"));
+        Parent root =loader.load();
+        ReclamationController ars=loader.getController();
+        btnDossierStage.getScene().setRoot(root);
+    }
+
+    public void goreprec(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/ReponseReclamation.fxml"));
+        Parent root =loader.load();
+        ReponseReclamationController ars=loader.getController();
+        totalEtudiant.getScene().setRoot(root);
+    }
+
+    public void gpmsg(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/Messagerie.fxml"));
+        Parent root =loader.load();
+        GestionMessagerie ars=loader.getController();
+        totalEtudiant.getScene().setRoot(root);
+
     }
 
 }

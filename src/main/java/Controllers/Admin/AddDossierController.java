@@ -120,10 +120,6 @@ public class AddDossierController implements Initializable {
             return;
         }
 
-
-
-
-
         boolean addedSuccessfully = dossierStageService.add(new Dossier_stage(id_user, cvPathInProj, conventionPathInProj, copie_cinPathInProj,  id_offre));
         Node node = (Node) actionEvent.getSource();
         Window ownerWindow = node.getScene().getWindow();

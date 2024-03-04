@@ -268,6 +268,27 @@ public class EntretienController implements Initializable {
         }
     }
 
+    public void gorec(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/Reclamation.fxml"));
+        Parent root =loader.load();
+        ReclamationController ars=loader.getController();
+        btnDossierStage.getScene().setRoot(root);
+    }
+
+    public void goreprec(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/ReponseReclamation.fxml"));
+        Parent root =loader.load();
+        ReponseReclamationController ars=loader.getController();
+        totalEtudiant.getScene().setRoot(root);
+    }
+
+    public void gomsg(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/Admin/Messagerie.fxml"));
+        Parent root =loader.load();
+        GestionMessagerie ars=loader.getController();
+        totalEtudiant.getScene().setRoot(root);
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         refreshPage();
