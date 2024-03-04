@@ -5,10 +5,20 @@ public class Cours {
     private String titre;
     private boolean etat;
     private String contenu;
+    private int rate;
 
     private Categorie categorie;
 
     public Cours() {}
+
+    public Cours(int id, String titre, boolean etat, String contenu, int rate, Categorie categorie) {
+        this.id = id;
+        this.titre = titre;
+        this.etat = etat;
+        this.contenu = contenu;
+        this.rate = rate;
+        this.categorie = categorie;
+    }
 
     public Cours(int id, String titre, boolean etat, String contenu, Categorie categorie) {
         this.id = id;
@@ -16,6 +26,14 @@ public class Cours {
         this.etat = etat;
         this.contenu = contenu;
         this.categorie=categorie;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
+    public double getRate() {
+        return rate;
     }
 
     public Cours(int id, String titre, boolean etat, String contenu) {
@@ -42,6 +60,11 @@ public class Cours {
         this.id = id;
         this.titre = titre;
         this.contenu = contenu;
+    }
+
+    public Cours(int id, String titre) {
+        this.id=id;
+        this.titre=titre;
     }
 
     public int getId() {

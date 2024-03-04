@@ -136,8 +136,6 @@ public class Ajoutercours implements Initializable {
                 return null;
             }
         });
-
-
     }
 
     public void upload(ActionEvent actionEvent) {
@@ -149,7 +147,7 @@ public class Ajoutercours implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(stage); // Use the stage passed from the main application
         if (selectedFile != null) {
             // Get the target resource directory path
-            String resourcePath = "C:/xampp/htdocs"; // Modify this according to your project structure
+            String resourcePath = "C:/xampp/htdocs/ons/images/"; // Modify this according to your project structure
             File resourceDirectory = new File(resourcePath);
 
             // Ensure the resource directory exists, create if necessary

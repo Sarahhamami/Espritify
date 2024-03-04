@@ -17,14 +17,11 @@ public class MainFXCat extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherCours.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/front_prof.fxml"));
         Parent root = loader.load();
         Scene scene=new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("interface cours");
         primaryStage.show();
-
     }
 }
-//fel upload taamel copie fel htdocs wel url yethat fel bd
-//controle de saisie

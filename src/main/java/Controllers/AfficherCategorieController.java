@@ -124,6 +124,7 @@ public class AfficherCategorieController implements Initializable {
 package Controllers;
 
 import entities.Categorie;
+import entities.Cours;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -274,6 +275,7 @@ public class AfficherCategorieController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeTable();
         deleteBtn();
+        Update();
         searchCat();
 
 
@@ -300,6 +302,51 @@ public class AfficherCategorieController implements Initializable {
         tablecat.setItems(sortedData);
     }
 
+
+    void Update(){
+        TableColumn<Categorie, String> updateItem = new TableColumn<>("");
+        Callback<TableColumn<Categorie, String>, TableCell<Categorie, String>> updateCellFactory = (param) -> {
+            final TableCell<Categorie, String> cell = new TableCell<Categorie, String>() {
+                final Button updateButton = new Button("Update");
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        updateButton.setOnAction(event -> {
+                            Categorie c = getTableView().getItems().get(getIndex());
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Admin/updatecat.fxml"));
+                                BorderPane popupContent = loader.load();
+                                UpdateCat controller = loader.getController();
+                                controller.setId(c.getId());
+                                controller.setTitre(c.getType());
+
+                                Popup popup = new Popup();
+                                popup.getContent().add(popupContent);
+                                controller.setPopup(popup);
+                                Stage primaryStage = (Stage) btnOrders.getScene().getWindow();
+                                popup.show(primaryStage);
+                                popup.setOnHidden(event1 -> {
+                                    initializeTable();
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        setGraphic(updateButton);
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        };
+        updateItem.setCellFactory(updateCellFactory);
+        tablecat.getColumns().add(updateItem);
+    }
 
 
 }

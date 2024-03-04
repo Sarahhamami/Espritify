@@ -40,7 +40,7 @@ public class CategorieService {
         }
     }
 
-    public void update(Categorie c) {
+    public boolean update(Categorie c) {
         int id = c.getId();
         String type= c.getType();
         String req = "update categorie set type = ? where id= ?";
@@ -51,7 +51,9 @@ public class CategorieService {
             int nbligne = pst.executeUpdate();
             if (nbligne == 0) {
                 System.out.println("Aucune modification effectuée pour cette requête");
+                return false;
             }
+            else return true;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
