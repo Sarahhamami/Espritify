@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox fx:id="itemC" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="53.0" prefWidth="1454.0" spacing="80.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5; -fx-background-insets: 0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Etudiant.FrontItemEventsController">
+    <children>
+        <Label />
+        <Label fx:id="id" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="128.0" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+        <Label fx:id="club" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="128.0" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+        <Label fx:id="titre" prefHeight="17.0" prefWidth="111.0" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+        <Label fx:id="description" prefHeight="17.0" prefWidth="140.0" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+
+            </HBox.margin>
+        </Label>
+        <Label fx:id="lieu" prefWidth="100" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+        <Label fx:id="dateDebut" prefWidth="100" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+        <Label fx:id="dateFin" prefWidth="100" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+        <Label prefHeight="18.0" prefWidth="116.0" />
+        <Button fx:id="btnparticiper" lineSpacing="12.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#participer" prefHeight="26.0" prefWidth="82.0" text="Participer" />
+
+    </children>
+    <effect>
+        <DropShadow blurType="GAUSSIAN" height="5.0" radius="2.0" width="5.0" />
+    </effect>
+</HBox>
