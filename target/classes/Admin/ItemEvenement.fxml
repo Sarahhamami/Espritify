@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox fx:id="itemC" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="53.0" prefWidth="1001.0" spacing="25.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5; -fx-background-insets: 0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.ItemEvenementController">
+    <children>
+        <Label fx:id="id" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="68.0" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+        <Label fx:id="id_club" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="111.0" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+        <Label fx:id="titre" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="111.0" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+        <Label fx:id="description" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="115.0" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+
+            </HBox.margin>
+        </Label>
+      <Label fx:id="lieu" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="140.0" textFill="#A6A6A6" />
+        <Label fx:id="date_debut" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="72.0" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+        <Label fx:id="date_fin" minHeight="-Infinity" minWidth="-Infinity" prefWidth="100" textFill="#A6A6A6">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Label>
+      <Button fx:id="btnupdate" cache="true" mnemonicParsing="false" onAction="#updateItem" prefHeight="10.0" prefWidth="10.0" style="-fx-background-color: #ffffff">
+         <graphic>
+            <ImageView fitHeight="22.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/edit.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="btndelete" cache="true" mnemonicParsing="false" onAction="#deleteItem" prefHeight="10.0" prefWidth="10.0" style="-fx-background-color: #ffffff">
+         <graphic>
+            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/supprimer.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+
+
+
+
+
+    </children>
+    <effect>
+        <DropShadow blurType="GAUSSIAN" height="5.0" radius="2.0" width="5.0" />
+    </effect>
+</HBox>

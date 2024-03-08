@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="MainPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.otherQuizzes">
+    <Text fx:id="question" layoutX="372.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Question ici">
+        <font>
+            <Font name="Bodoni MT" size="25.0" />
+        </font>
+    </Text>
+    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#990000" height="57.0" stroke="BLACK" strokeType="INSIDE" width="1280.0" />
+    <ImageView fitHeight="102.0" fitWidth="85.0" layoutX="1203.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@../images/espritify-removebg-preview.png" />
+        </image>
+    </ImageView>
+    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+    <Text fill="WHITE" layoutX="14.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Espritify">
+        <font>
+            <Font name="Bodoni MT Black" size="27.0" />
+        </font>
+    </Text>
+    <Button fx:id="reponse1" layoutX="268.0" layoutY="283.0" mnemonicParsing="false" onAction="#verifyResponses" prefHeight="102.0" prefWidth="228.0" style="-fx-background-color: #990000; -fx-background-radius: 30px;" text="Réponse 1" textAlignment="CENTER" textFill="WHITE">
+        <font>
+            <Font name="Arial Rounded MT Bold" size="18.0" />
+        </font></Button>
+    <Button fx:id="reponse2" layoutX="724.0" layoutY="283.0" mnemonicParsing="false" onAction="#verifyResponses" prefHeight="102.0" prefWidth="228.0" style="-fx-background-color: #990000; -fx-background-radius: 30px;" text="Réponse 2" textAlignment="CENTER" textFill="WHITE">
+        <font>
+            <Font name="Arial Rounded MT Bold" size="18.0" />
+        </font></Button>
+    <Button fx:id="reponse3" layoutX="496.0" layoutY="465.0" mnemonicParsing="false" onAction="#verifyResponses" prefHeight="102.0" prefWidth="228.0" style="-fx-background-color: #990000; -fx-background-radius: 30px;" text="Réponse 3" textAlignment="CENTER" textFill="WHITE">
+        <font>
+            <Font name="Arial Rounded MT Bold" size="18.0" />
+        </font>
+    </Button>
+   <Button fx:id="retour" layoutX="22.0" layoutY="74.0" mnemonicParsing="false" onAction="#Retour" prefHeight="30.0" prefWidth="141.0" style="-fx-background-color: #990000; -fx-background-radius: 30px;" text="Retour" textAlignment="CENTER" textFill="WHITE">
+      <font>
+         <Font name="Arial Rounded MT Bold" size="18.0" />
+      </font>
+   </Button>
+</AnchorPane>
